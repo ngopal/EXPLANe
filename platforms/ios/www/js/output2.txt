@@ -1,0 +1,189 @@
+ 
+
+KOCAELI
+UNIVERSITY
+
+SAITOHIN GENE rs62063857 VARIANT IN
+SPORADIC AMYOTROPHIC LATERAL
+SCLEROSIS
+
+ 
+
+KOCAELI UNIVERSITY
+School of Medicine
+
+Ezgi Sonmezl, Ali Sazcil, Mavi Deniz Ozel1,Halil Atilla Idrisoglu2
+1. Department of Medical Biology and Genetics, Faculty of Medicine, University of Kocaeli, Kocaeli, 41380, Turkey
+2. Department of Neurology, Istanbul Faculty of Medicine, University of Istanbul, Istanbul, 34290, Turkey
+
+Background
+
+Amyotrophic lateral sclerosis (ALS) is a fatal motor neuron
+disease (MND), affecting either upper or lower motor
+neurons. Generally patients experience signs and symptoms
+of progressive muscle atrophy and weakness, problems with
+swallowing, leading to respiratory failure and death. Only
+5-10 % of patients survive more than 10 years and median
+survival is 3-5 years from onset (1).
+
+In this study, the hypothesis was that whether STH gene
+rs62063857 variant could be used as a biomarker to
+diferrantiate SALS from Dementia and Parkinson’s Disease.
+
+Saitollin (STH) Rs62063857
+
+Objects
+
+The aim of the study was to determine whether saitohin gene
+rs62063 857 variant was associated with sporadic
+amyotrophic lateral sclerosis (SALS).
+
+Methods
+
+We had 597 sporadic ALS patients and 423 controls to
+genotype. Genomic DNA was isolated from whole blood
+and a polymerase chain reaction and restriction fragment
+lenght polymorphism procedure was used to genotype the
+STH gene rs62063857 variant (2). The amplified fragment
+was digested HinfI restriction endonuclease and run on an
+8% polyacrylimide gel followed by silver staining. SPSS
+statistical analysis was used in the calculation of genotype
+and allele frequencies and association.
+
+1362063 57
+(440766 -
+
+Forward Primer l
+
+_ (44076592-44076512)
+>'- CCCTGTAAACTCTGACCACAC C (G>A) AGTC -3'
+
+3'— GTACCCTTCATCGAAG ACA -5'
+(4407679 7-440768 1
+Reverse Primer
+
+171 hp 55 hp
+
+74 bp 97 hp 5511])
+
+M QQ QR RR
+
+19°"P— ':" -in j 171bp
+147bP— jg
+
+11117!) T
+1l0bp7
+
+67bp— .__.
+
+M j j 55bP
+
+&—1 M 9711p
+
+nj 1-n 74hp
+
+Results
+
+Although ALS is a rare disease with a prevalance of 1-2 in
+100.000 worldwide, it is a devestating disorder. In our
+earlier studies, we found that STH rs62063857 variant was
+associated with dementia (3) and Parkinson’s disease. In
+
+this particular study, we did not find any association
+between the STH gene rs62063 857 variant and SALS.
+
+Gene Cases Controls X2 P Value OR 95 % CI
+
+597(100.0) 423(100.0) 0,063 0,969
+
+QQ (AA) 367(61.5) 257(60.8) 0,054 0,817 1.031(0.798-1331)
+
+QR (AG) 203(34.0) 146(34.5) 0,029 0,865 0.978(0.752-1.271)
+
+RR (GG) 27(4.5) 20(4.7) 0,024 0,877 0.954(0.528-1.726)
+
+Allele frequency
+
+Q (A) allele 937(78.48) 660(78.0) 0,024 0,877 l.048(0.580—l.894)
+
+R(G) allele 257(21.52) 186(22.0) 0,054 0,817 0.970(0.752-1253)
+
+HWE (exact) 1.0 1.0
+
+Cases Controls X2 P value
+lnale lnale
+
+Gm OR 95 % CI
+safollln (STH) Rs62063'857
+
+370(100.0) 265(100.0) 0,345 0,842
+
+QQ (AA) 216(58.4) 160(60.4) 0,255 0,613 0.920(0.667-1.269)
+
+QR (AG) 134(36.2) 90(34.0) 0,344 0,558 1.104(0.793-1.537)
+
+RR (GG) 20(5.4) l5(5.7) 0,019 0,890 0.952(0.478—l.897)
+
+Allele frequency
+
+Q (A) allele 566(76.49) 410(77.36) 0,019 0,890 1.050(0.527-2.091)
+
+R (G) allele 174(23.51) 120(22.64) 0,255 0,613 1.088(0.788-1.498)
+
+HWE (exact) 1.0 0.60
+
+, Cases Controls X2 P value OR 95 % CI
+Gene felnale felnale
+
+S-aitollin (STH) Rs62063857
+
+227(100.0) 158(100.0) 1.113 0,573
+
+QQ (AA) 151(66.5) 97(61.4) 1.068 0,301 1.249(0.819-1.907)
+
+QR (AG) 69(30.4) 56(35.4) 1.082 0,298 0.795(0.517-1.225)
+
+RR (GG) 7(3.1) 5(3.2) 0,002 0,964 0.974(0.303-3.125)
+
+Allele frequency
+
+Q (A) allele 371(81.72) 250(79.ll) 0,002 0,964 1.027(0.320-3.296)
+
+R (G) allele 83(18.28) 66(20.88) 1.068 0,301 0.800(0.525-1.221)
+
+H\VE (exact) 1.0 0.47
+
+Discussion and conclusions
+
+The satiohin gene rs62063857 variant was not associated with
+SALS ( )(2= 0.063, P=0.969). The AA, AG and GG genotype
+frequencies in the sals were 61.5, 34.0 and 4.5 % in cases and
+60.8, 34.5 and 4.7 % in controls respectively. The A and G
+allele frequencies were 78.48 and 21.52% in cases and 78.0
+and 22.0 % in the controls respectively. There was no
+association on genders ( )(2= 0.345, P=0.842 in male and
+
+)(2=l.l13, P=0.573 in female).
+
+Acknowledgements
+
+This study was supported by the Kocaeli University research
+fund to AS.
+
+References
+
+1.Leblond CS, Kaneb HM, Dion PA, Rouleau GA. Exp Neurol.
+2014; S0014-4886(14)00115-0. doi: 10.1016/j.eXpneurol.
+2014.04.013.
+
+2.Conrad C, Vianna C, Freeman M, Davies P. Proc Natl Acad
+Sci U S A. 2002; 99(11):7751-7756.
+
+3.Sonmez E, Ozel MD, Sazci A, Ergul E, Idrisoglu HA
+Neurobiology of aging 2014; 35: 718-719 2014
+
+4.Sonmez E, Ozel MD, Islek E, Sazci A, Idrisoglu HA Cellular
+and Molecular Neurobiology 2014. doi: l0.l007/
+s10571-014-0102-5
+
+
