@@ -1,0 +1,13 @@
+ToDo
+
+1. Add Camera API
+
+# Used this technique to get Android to compile to correct target (23):
+http://stackoverflow.com/questions/29396252/cordova-error-please-install-android-target-android-21
+
+# Resource used to install android emulator. Didn't quite work:
+http://www.panopticdev.com/blog2014/phonegap-mac-osx-setup-configuration-android-ios/
+
+# Personal Notes
+Be sure to debug and develop using the 'cordova serve' command because it compiles and serves libraries the correct way (rather than forcing it with 'python -m SimpleHTTPServer' in the 'www' directory).
+
