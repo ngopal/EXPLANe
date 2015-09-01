@@ -27,7 +27,7 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <title>Poster App</title>
     </head>
     <body>
         <div class="app">
@@ -52,6 +52,7 @@
             <img style="display:none;" id="largeImage" src="" /> -->
             <div id="uploadarea">
                 <button id="startCamera">Upload Image to Library</button>
+                <button id="takePicture">Take Picture</button>
                 <img id="canvas" />
                 <div id="variantResults">
                     <h2>Results Go Here:</h2>
@@ -69,129 +70,7 @@
         <script type="text/javascript">
             $.support.cors = true;
 
-            app.initialize();
-
-            // // Called when a photo is successfully retrieved
-            // //
-            // function onPhotoDataSuccess(imageData) {
-            //   // Get image handle
-            //   //
-            //   var smallImage = document.getElementById('smallImage');
-            //   // Unhide image elements
-            //   //
-            //   smallImage.style.display = 'block';
-            //   // Show the captured photo
-            //   // The inline CSS rules are used to resize the image
-            //   //
-            //   smallImage.src = "data:image/jpeg;base64," + imageData;
-            // }
-            
-            // // Called when a photo is successfully retrieved
-            // //
-            // function onPhotoFileSuccess(imageData) {
-            //   // Get image handle
-            //   console.log(JSON.stringify(imageData));
-              
-            //   // Get image handle
-            //   //
-            //   var smallImage = document.getElementById('smallImage');
-            //   // Unhide image elements
-            //   //
-            //   smallImage.style.display = 'block';
-            //   // Show the captured photo
-            //   // The inline CSS rules are used to resize the image
-            //   //
-            //   smallImage.src = imageData;
-            // }
-            // // Called when a photo is successfully retrieved
-            // //
-            // function onPhotoURISuccess(imageURI) {
-            //   // Uncomment to view the image file URI 
-            //   console.log("image URI: " + imageURI);
-            //   // Get image handle
-            //   //
-            //   var largeImage = document.getElementById('largeImage');
-            //   // Unhide image elements
-            //   //
-            //   largeImage.style.display = 'block';
-            //   // Show the captured photo
-            //   // The inline CSS rules are used to resize the image
-            //   //
-            //   largeImage.src = imageURI;
-            // }
-            // // A button will call this function
-            // //
-            // function capturePhotoWithData() {
-            //   // Take picture using device camera and retrieve image as base64-encoded string
-            //   navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50 });
-            // }
-            // function capturePhotoWithFile() {
-            //     navigator.camera.getPicture(onPhotoFileSuccess, onFail, { quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-            // }
-            
-            // // A button will call this function
-            // //
-            // function getPhoto(source) {
-            //   // Retrieve image file location from specified source
-            //   navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
-            //     destinationType: Camera.destinationType.FILE_URI,
-            //     PictureSourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-            //     sourceType: source });
-            // }
-            // // Called if something bad happens.
-            // // 
-            // function onFail(message) {
-            //   alert('CAMERA Failed because: ' + message);
-            // }
-
-            // Setup code to 
-            // 1. take picture and save it locally
-            // 2. immediately upload that saved file to OCR
-            // 3. return the results
-
-
-
-          // $(document).ready(function() {
-
-          //      $('#uploadForm').submit(function() {
-
-          //         $(this).ajaxSubmit({
-
-          //             error: function(xhr) {
-          //                   status('Error: ' + xhr.status);
-          //             },
-
-          //             success: function(response) {
-          //                     console.log(response);
-          //                     console.log(navigator.camera);
-          //                     var queue = response;
-
-          //                     function urlConstructor(id) {
-          //                       return "http://myvariant.info/v1/query?q="+id;
-          //                     }
-          //                     var feedback = d3.selectAll('h1');
-          //                     var temp = '';
-          //                     queue.forEach(function(m) {
-          //                       temp += m; 
-          //                       temp+=',';
-          //                     });
-          //                     var rsids = temp.slice(0,temp.length-1)
-
-          //                     d3.json(urlConstructor(rsids), function(error,data) {
-          //                           if(error != null) {
-          //                               console.log(error);
-          //                               return feedback.text("ERROR");
-          //                           }
-          //                           else {
-          //                               console.log(data);
-          //                               }
-          //                               return feedback.text("SUCCESS");
-          //                       });
-          //                   }
-          //           });
-          //       return false;
-          //       });
-          //   });    
+            app.initialize();    
 
 
         function init() {
@@ -274,6 +153,16 @@
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
                popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+             });
+
+        }
+
+        function takePicture() {
+
+            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
+             { destinationType: Camera.DestinationType.FILE_URI,
+               sourceType: Camera.PictureSourceType.CAMERA,
+               //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
              });
 
         }
