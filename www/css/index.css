@@ -117,9 +117,9 @@ h1 {
 
 #canvas {
     position: absolute;
-    left: 300px;
-    top: 300px;
+    left: 50%;
+    top: 50%;
     background-color: red;
-    width: 200px;
-    height: 200px;
+    width: 225;
+    height: 50px;
 }

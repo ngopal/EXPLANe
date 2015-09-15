@@ -27,6 +27,7 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="js/node_modules/jqwidgets-framework/jqwidgets/styles/jqx.base.css" />
         <title>Poster App</title>
     </head>
     <body>
@@ -36,36 +37,32 @@
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
             </div>
-<!--             <div id="uploadarea">
-                <form id="uploadForm"
-                    enctype="multipart/form-data"
-                    action="http://localhost:3000/api/photo"
-                    method="post">
-                <input type="file" name="userPhoto" />
-                <input type="submit" value="Upload Image" name="submit">
-            </div> -->
-<!--             <div id="uploadarea">
-                <button onclick="getPhoto(Camera.PictureSourceType.PHOTOLIBRARY);">From Photo Library</button><br><br>
-                <button onclick="capturePhotoWithData();">Capture Photo With Image Data</button> <br><br>
-            </div>
-            <img style="display:none;width:60px;height:60px;" id="smallImage" src="" /><br>
-            <img style="display:none;" id="largeImage" src="" /> -->
             <div id="uploadarea">
                 <button id="startCamera">Upload Image to Library</button>
                 <button id="takePicture">Take Picture</button>
-                <img id="canvas" />
-                <div id="variantResults">
-                    <h2>Results Go Here:</h2>
-                    <div id="variantItems">
-                    </div>
+            </div>
+            <img id="canvas" />
+            <div id="variantResults">
+                <h2>Results Go Here:</h2>
+                <div id="treeGrid">
                 </div>
             </div>
         </div>
+        
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/node_modules/d3/d3.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxcore.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxcore.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxdata.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxbuttons.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxscrollbar.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxlistbox.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxdropdownlist.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxdatatable.js"></script>
+        <script type="text/javascript" src="js/node_modules/jqwidgets-framework/jqwidgets/jqxtreegrid.js"></script>
         <access origin="*" />
         <script type="text/javascript">
             $.support.cors = true;
@@ -108,7 +105,38 @@
                     }
                     else {
                         //alert(JSON.stringify(d3data));
-                        document.write(JSON.stringify(d3data));
+                        var myVariantResults = d3data;
+                        var source = {
+                            dataType: "json",
+                            dataFields: [
+                                { name: 'hits', type: 'array' },
+                                { name: '_id', type: 'string'},
+                                { name: '_score', type: 'number'},
+                                { name: 'max_score', type: 'number'},
+                                { name: 'took', type: 'number'},
+                                { name: 'total', type: 'number'}
+                            ],
+                            hierarchy:
+                            {
+                                root: "hits"
+                            },
+                            id: '_id',
+                            localData: myVariantResults
+                        };
+                        var dataAdapter = new $.jqx.dataAdapter(source);
+                        $("#treeGrid").jqxTreeGrid(
+                        {
+                            width: 500,
+                            source: dataAdapter,
+                            ready: function() {
+                                $("#treeGrid").jqxTreeGrid('expandRow', '2');
+                            },
+                            columns: [
+                                { text: 'Score', dataField: '_score', width: 150},
+                                { text: 'ID', dataField: '_id', width: 350}
+                            ]
+                        });
+                        //document.write(JSON.stringify(d3data));
                     }
                 });
                 //alert(myVariantUrl.concat(rsids));
