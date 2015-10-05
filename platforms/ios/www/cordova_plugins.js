@@ -192,9 +192,9 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-whitelist": "1.0.0",
     "cordova-plugin-camera": "1.2.0",
-    "cordova-plugin-file-transfer": "1.2.1",
+    "cordova-plugin-whitelist": "1.0.0",
+    "cordova-plugin-file-transfer": "1.3.0",
     "cordova-plugin-file": "3.0.0"
 }
 // BOTTOM OF METADATA
