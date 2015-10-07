@@ -52,11 +52,9 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/node_modules/d3/d3.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
         <access origin="*" />
         <script type="text/javascript">
-            $.support.cors = true;
+            //$.support.cors = true;
 
             app.initialize();    
 
@@ -71,18 +69,97 @@
         var cameraPopoverHandle;
 
         function onSuccess(u) {
-            console.log('onSuccess');
-            // alert(u);
-            //upload the image
+            // imageUpload(u);
+            var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = u.substr(u.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.enctype = "multipart/form-data";
+            // options.headers = {
+            //     Connection: "close"
+            // };
+            options.chunkedMode = true;
+            options.httpMethod = "POST";
+            var trustAllHosts = true;
+            var ft = new FileTransfer();
+            ft.upload(u, encodeURI("http://localhost:3001/api/photo"), 
+                function(winner) {
+                    alert(JSON.stringify(winner));
+                }, 
+                function(failure) {
+                    alert(JSON.stringify(failure));
+                }, options, trustAllHosts);
+        }
+
+        function onFail(e) {
+            alert('onFail');
+            console.log(e);
+        }
+
+        function startCamera() {
+
+            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
+             { destinationType: Camera.DestinationType.FILE_URI,
+               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+               popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+             });
+
+        }
+
+        function takePicture() {
+
+            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
+             { destinationType: Camera.DestinationType.FILE_URI,
+               sourceType: Camera.PictureSourceType.CAMERA,
+               //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+             });
+
+        }
+
+         // Reposition the popover if the orientation changes.
+         window.onorientationchange = function() {
+            console.log('running onorientationchange');
+            var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
+            cameraPopoverHandle.setPosition(cameraPopoverOptions);
+         }
             
-            // setup code to change "Scane Poster" to "Uploading Poster".
 
-            var myVariantUrl = "http://myvariant.info/v1/query?q=";
+        var myVariantUrl = "http://myvariant.info/v1/query?q=";
 
-            var win = function (r) {
-                // alert("Code = " + r.responseCode
-                // + " Response = " + r.response
-                // + " Sent = " + r.bytesSent);
+        function imageUpload(url) {
+                console.log('onSuccess');
+                alert("url "+JSON.stringify(url));
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = url.substr(url.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.enctype = "multipart/form-data";
+                options.headers = {
+                    Connection: "close"
+                };
+                options.chunkedMode = true;
+                options.httpMethod = "POST";
+
+                var trustAllHosts = true;
+                alert("options "+JSON.stringify(options));
+
+                var ft = new FileTransfer();
+                alert("About to send upload command");
+                ft.upload(url, encodeURI("http://localhost:3001/api/photo"), function(winner) {
+                        alert(JSON.stringify(winner));
+                    }, function(failure) {
+                        alert(JSON.stringify(failure));
+                    }, options, trustAllHosts);
+                // ft.upload(url, encodeURI("http://localhost:3001/api/photo"), win, fail, options, trustAllHosts);
+                alert("After sending upload command");
+                // end filetransfer chunk
+            }
+
+        function win(r) {
+                alert("r "+JSON.stringify(r));
+                //alert("Code = " + r.responseCode
+                //+ " Response = " + r.response
+                //+ " Sent = " + r.bytesSent);
                 //document.querySelector("#variantItems p").write("RESPONDED");
                 //alert(r.response);
                 var rsids = r.response.replace('[', '')
@@ -91,11 +168,11 @@
                 //document.write(myVariantUrl.concat(rsids));
                 d3.json(myVariantUrl.concat(rsids), function(d3err, d3data) {
                     if(d3err != null) {
-                        //alert(JSON.stringify(d3err));
+                        alert("d3ERR", JSON.stringify(d3err));
                         document.write(JSON.stringify(d3err));
                     }
                     else {
-                        //alert(JSON.stringify(d3data));
+                        alert("d3SUCCESS", JSON.stringify(d3data));
                         var myvar = d3data;
                         var width = 400; //window.innerWidth;
                         var height = window.innerHeight;
@@ -206,66 +283,12 @@
                 //alert(myVariantUrl.concat(rsids));
             }
 
-            var fail = function (error) {
+            function fail(error) {
                 alert("An error has occurred: Code = " + error.code
                 + " upload error source " + error.source
                 + " upload error target " + error.target);
+                alert(JSON.stringify(error));
             }
-
-            var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.fileName = u.substr(u.lastIndexOf('/') + 1);
-            //options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-            options.mimeType = "image/jpeg";
-            options.enctype = "multipart/form-data";
-
-            var params = {};
-            params.value1 = "test";
-            params.value2 = "param";
-
-            options.params = params;
-
-            var trustAllHosts = true;
-
-            var ft = new FileTransfer();
-            ft.upload(u, encodeURI("http://localhost:3000/api/photo"), win, fail, options, trustAllHosts);
-            // end filetransfer chunk
-
-            document.querySelector("#canvas").src = u;
-        }
-
-        function onFail(e) {
-            alert('onFail');
-            console.dir(e);
-        }
-
-        function startCamera() {
-
-            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
-             { destinationType: Camera.DestinationType.FILE_URI,
-               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-               popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
-             });
-
-        }
-
-        function takePicture() {
-
-            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
-             { destinationType: Camera.DestinationType.FILE_URI,
-               sourceType: Camera.PictureSourceType.CAMERA,
-               //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
-             });
-
-        }
-
-         // Reposition the popover if the orientation changes.
-         window.onorientationchange = function() {
-            console.log('running onorientationchange');
-            var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
-            cameraPopoverHandle.setPosition(cameraPopoverOptions);
-         }
-            
 
             
 

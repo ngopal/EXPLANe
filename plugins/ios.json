@@ -78,6 +78,12 @@
                             "xml": "<string />",
                             "count": 1
                         }
+                    ],
+                    "NSAppTransportSecurity": [
+                        {
+                            "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /></dict>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -87,16 +93,18 @@
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
-        }
-    },
-    "dependent_plugins": {
-        "cordova-plugin-file": {
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-transport-security": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         }
-    }
+    },
+    "dependent_plugins": {}
 }
