@@ -65,7 +65,7 @@
         }
 
         document.addEventListener("deviceready", init, false);
-
+        var myVariantUrl = "http://myvariant.info/v1/query?q=";
         var cameraPopoverHandle;
 
         function onSuccess(u) {
@@ -82,13 +82,12 @@
             options.httpMethod = "POST";
             var trustAllHosts = true;
             var ft = new FileTransfer();
-            ft.upload(u, encodeURI("http://localhost:3001/api/photo"), 
-                function(winner) {
-                    alert(JSON.stringify(winner));
-                }, 
-                function(failure) {
-                    alert(JSON.stringify(failure));
-                }, options, trustAllHosts);
+            ft.upload(u, 
+                    encodeURI("http://localhost:3001/api/photo"), 
+                    win, 
+                    fail, 
+                    options, 
+                    trustAllHosts);
         }
 
         function onFail(e) {
@@ -124,11 +123,11 @@
          }
             
 
-        var myVariantUrl = "http://myvariant.info/v1/query?q=";
+        
 
         function imageUpload(url) {
                 console.log('onSuccess');
-                alert("url "+JSON.stringify(url));
+                //alert("url "+JSON.stringify(url));
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = url.substr(url.lastIndexOf('/') + 1);
@@ -141,22 +140,20 @@
                 options.httpMethod = "POST";
 
                 var trustAllHosts = true;
-                alert("options "+JSON.stringify(options));
+                //alert("options "+JSON.stringify(options));
 
                 var ft = new FileTransfer();
-                alert("About to send upload command");
-                ft.upload(url, encodeURI("http://localhost:3001/api/photo"), function(winner) {
-                        alert(JSON.stringify(winner));
-                    }, function(failure) {
-                        alert(JSON.stringify(failure));
-                    }, options, trustAllHosts);
-                // ft.upload(url, encodeURI("http://localhost:3001/api/photo"), win, fail, options, trustAllHosts);
-                alert("After sending upload command");
-                // end filetransfer chunk
+                //alert("About to send upload command");
+                ft.upload(url, 
+                    encodeURI("http://localhost:3001/api/photo"), 
+                    win, 
+                    fail, 
+                    options, 
+                    trustAllHosts);
             }
 
         function win(r) {
-                alert("r "+JSON.stringify(r));
+                //alert("r "+JSON.stringify(r));
                 //alert("Code = " + r.responseCode
                 //+ " Response = " + r.response
                 //+ " Sent = " + r.bytesSent);
@@ -168,13 +165,14 @@
                 //document.write(myVariantUrl.concat(rsids));
                 d3.json(myVariantUrl.concat(rsids), function(d3err, d3data) {
                     if(d3err != null) {
-                        alert("d3ERR", JSON.stringify(d3err));
+                        //alert("d3ERR", JSON.stringify(d3err));
                         document.write(JSON.stringify(d3err));
                     }
                     else {
-                        alert("d3SUCCESS", JSON.stringify(d3data));
+                        //alert("d3SUCCESS", JSON.stringify(d3data));
                         var myvar = d3data;
-                        var width = 400; //window.innerWidth;
+                        alert(JSON.stringify(myvar.hits));
+                        var width = window.innerWidth;
                         var height = window.innerHeight;
 
                         var svg = d3.select('.summary')
@@ -283,12 +281,12 @@
                 //alert(myVariantUrl.concat(rsids));
             }
 
-            function fail(error) {
-                alert("An error has occurred: Code = " + error.code
-                + " upload error source " + error.source
-                + " upload error target " + error.target);
-                alert(JSON.stringify(error));
-            }
+        function fail(error) {
+            alert("An error has occurred: Code = " + error.code
+            + " upload error source " + error.source
+            + " upload error target " + error.target);
+            alert(JSON.stringify(error));
+        }
 
             
 
