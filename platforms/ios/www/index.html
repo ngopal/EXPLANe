@@ -31,18 +31,18 @@
     </head>
     <body>
         <div class="app">
-            <h1>Scan Poster</h1>
+            <h1>MyVariant.info Poster Scanner</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+                <p class="event received">Ready to Analyze</p>
             </div>
             <div id="uploadarea">
-                <button id="startCamera">Upload Image to Library</button>
+                <button id="startCamera">Upload Image from Library</button>
                 <button id="takePicture">Take Picture</button>
                 <!-- <img id="canvas" /> -->
             </div>
-            <div id="variantResults">
-            </div>
+        </div>
+        <div id="variantResults">
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -186,7 +186,7 @@
                       left: 30,
                       right:30};
 
-            var width = 400 - margin.right - margin.left;
+            var width = window.innerWidth - margin.right - margin.left; //was 400
             var height = window.innerHeight - margin.top - margin.bottom;
 
             var svgs = d3.select('#variantResults').selectAll("svg")
