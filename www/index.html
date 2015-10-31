@@ -79,7 +79,8 @@
             var trustAllHosts = true;
             var ft = new FileTransfer();
             ft.upload(u, 
-                    encodeURI("http://localhost:3001/api/photo"), 
+                    //encodeURI("http://localhost:3001/api/photo"),
+                    encodeURI("http://warm-depths-7622.herokuapp.com/api/photo"), 
                     win, 
                     fail, 
                     options, 
@@ -141,7 +142,8 @@
                 var ft = new FileTransfer();
                 //alert("About to send upload command");
                 ft.upload(url, 
-                    encodeURI("http://localhost:3001/api/photo"), 
+                    //encodeURI("http://localhost:3001/api/photo"),
+                    encodeURI("http://warm-depths-7622.herokuapp.com/api/photo"), 
                     win, 
                     fail, 
                     options, 
@@ -154,7 +156,7 @@
                 //+ " Response = " + r.response
                 //+ " Sent = " + r.bytesSent);
                 //document.querySelector("#variantItems p").write("RESPONDED");
-                //alert(r.response);
+                alert(r.response);
                 var rsids = r.response.replace('[', '')
                                       .replace(']', '')
                                       .replace(/\"/g, '');
