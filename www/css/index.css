@@ -50,7 +50,7 @@ body {
     /*background:url(../img/crossword.png) no-repeat center top; /* 170px x 200px */*/
     background-size:170px 200px;
     position:absolute;             /* position in the center of the screen */
-    left:50%; /* was 50% */
+    left:40%; /* was 50% */
     top:10%;  /* was 50% */
     /*height:50px;                   /* text area height */
     /*width:225px;                   /* text area width */
@@ -133,3 +133,14 @@ h1 {
     width: 200px;
     height: 200px;
 }
+
+#startCamera {
+    width:50%;
+    height:25%;
+}
+
+#takePicture {
+    width:50%;
+    height:25%;
+}
+
