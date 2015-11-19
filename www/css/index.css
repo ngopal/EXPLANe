@@ -144,3 +144,18 @@ h1 {
     height:25%;
 }
 
+#resultsTitle {
+    display:none;
+}
+
+.myVarButton {
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #4fa154;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+
+
