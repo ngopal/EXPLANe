@@ -37,7 +37,7 @@
                 <p class="event received">Ready to Analyze</p>
             </div>
             <div id="uploadarea">
-                <button id="startCamera">Upload Image from Library</button>
+                <button id="startCamera">Upload Image</button>
                 <p>or</p>
                 <button id="takePicture">Take Picture</button>
                 <!-- <img id="canvas" /> -->
@@ -67,6 +67,7 @@
 
         function onSuccess(u) {
             // imageUpload(u);
+            document.getElementsByClassName("event received")[0].innerHTML = "Uploading..."
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = u.substr(u.lastIndexOf('/') + 1);
@@ -170,6 +171,7 @@
                 //document.querySelector("#variantItems p").write("RESPONDED");
                 //alert(r.response);
                 //updateUserOnRequestReceived();
+                document.getElementsByClassName("event received")[0].innerHTML = "Received Response"
                 var rsids = r.response.replace('[', '')
                                       .replace(']', '')
                                       .replace(/\"/g, '');
@@ -196,6 +198,8 @@
         }
 
         function MakeSummary(myVariantHitsArray) {
+
+            document.getElementsByClassName("event received")[0].innerHTML = "Creating Summary"
 
             var margin = {top: 10,
                       bottom: 10,
@@ -347,6 +351,8 @@
                 .style("fill", "black")
                 .style("font", "14px sans-serif")
                 .style("text-anchor", "start");
+
+        document.getElementsByClassName("event received")[0].innerHTML = "Process Complete"
                    
         }
 
