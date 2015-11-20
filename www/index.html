@@ -39,7 +39,7 @@
             </div>
             <div id="uploadarea">
                 <button class="myVarButton" id="startCamera">Select Image of Poster from Library for Processing</button>
-                <!-- <p>or</p> -->
+                <br><br>
                 <button class="myVarButton" id="takePicture">Take Photo of Poster and Process</button>
                 <!-- <img id="canvas" /> -->
             </div>
@@ -212,7 +212,8 @@
             var height = window.innerHeight - margin.top - margin.bottom;
 
             var resultsTitle = d3.select("#resultsTitle")
-                                .style("display", "inline");
+                                .style("display", "inline")
+                                .text(myVariantHitsArray.length+" variants were found:");
 
             var svgs = d3.select('#variantResults')
                         .selectAll("svg")
