@@ -51,24 +51,16 @@ body {
     background-size:170px 200px;
     position:absolute;             /* position in the center of the screen */
     left:40%; /* was 50% */
-    top:10%;  /* was 50% */
+    top:20%;  /* was 50% */
     /*height:50px;                   /* text area height */
     /*width:225px;                   /* text area width */
-    width:80%;                   /* text area width */
+    width:90%;                   /* text area width */
     text-align:center;
     float:left;
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
 }
-
-/*#variantResults {
-    float:left;
-    left:30%;  was 50% 
-    text-align:center;
-    clear:both;
-    display:block;
-}*/
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
@@ -87,6 +79,7 @@ h1 {
     overflow:visible;
     padding:0px;
     text-align:center;
+    text-transform: none;
 }
 
 .event {
@@ -121,8 +114,8 @@ h1 {
 }
  
 .blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
+    animation:fade 3000ms;
+    -webkit-animation:fade 3000ms;
 }
 
 #canvas {
@@ -144,17 +137,52 @@ h1 {
     height:25%;
 }
 
-#resultsTitle {
+#variantResults {
     display:none;
 }
 
 .myVarButton {
-  font-family: Arial;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
   color: #ffffff;
   font-size: 20px;
-  background: #4fa154;
-  padding: 10px 20px 10px 20px;
+  background: #63bd5e;
+  padding: 30px 30px 30px 30px;
   text-decoration: none;
+}
+
+.tabrow {
+  text-align: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
+}
+.tabrow li {
+  margin: 0 10px;
+  padding: 0 10px;
+  border: 1px solid #AAA;
+  background: #ECECEC;
+  display: inline-block;
+}
+
+.tabrow li.selected {
+  background: #FFF;
+  color: #000;
+}
+
+.tabrow {
+  position: relative;
+}
+.tabrow:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid #AAA;
+  z-index: 1;
 }
 
 

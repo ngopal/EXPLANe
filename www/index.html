@@ -38,14 +38,30 @@
                 <br>
             </div>
             <div id="uploadarea">
-                <button class="myVarButton" id="startCamera">Select Image of Poster from Library for Processing</button>
-                <br><br>
+                <table style="width:100%">
+                <tr>
+                <td>
+                <button class="myVarButton" id="startCamera">Select Poster from Library for Processing</button>
+                </td>
+                <!-- <br><br> -->
+                <td>
                 <button class="myVarButton" id="takePicture">Take Photo of Poster and Process</button>
+                </td>
+                </tr>
+                </table>
                 <!-- <img id="canvas" /> -->
             </div>
             <div id="variantResults">
-                <br>
-                <h2 id="resultsTitle">X variants were found:</h2>
+                <br><br>
+                <div id="tabs">
+                     <ul class="tabrow">
+                        <li class="selected">Variants</li>
+                        <li>URLs</li>
+                        <li>Your Tab Here</li>
+                     </ul>
+                     <br>
+                </div>
+              <h2 id="resultsTitle">X variants were found:</h2>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
@@ -211,9 +227,9 @@
             var width = window.innerWidth - margin.right - margin.left; //was 400
             var height = window.innerHeight - margin.top - margin.bottom;
 
-            var resultsTitle = d3.select("#resultsTitle")
+            var variantResults = d3.select("#variantResults")
                                 .style("display", "inline")
-                                .text(myVariantHitsArray.length+" variants were found:");
+                                .html(myVariantHitsArray.length+" variants were found:<br><br>");
 
             var svgs = d3.select('#variantResults')
                         .selectAll("svg")
@@ -227,56 +243,34 @@
                         .attr("height", height + margin.top + margin.bottom);
 
             var texts = svgs.append("text")
-                        .attr("x", margin.left)
-                        .attr("y", 25)
-                        .text(function(d) {
-                            return d._id;
-                        })
-                        .attr("font-size", 25);
+                    .attr("x", margin.left)
+                    .attr("y", 25)
+                    .text(function(d) {
+                        return d._id;
+                    })
+                    .attr("font-size", 25);  
 
             var rsids = svgs.append("text")
-                  .text(function(d) {
-                    return d.dbsnp.rsid;
-                  })
-                  .attr("x", margin.left)
-                  .attr("y", 50)
-                  .attr("font-size", 20);
+                        .text(function(d) {
+                          return verifyRSID(d);
+                        })
+                        .attr("x", margin.left)
+                        .attr("y", 45)
+                        .attr("font-size", 20);          
+
+            var clinicalsignificances = svgs.append("text")
+                        .text(function(d) {
+                          return verifyClinicalStatus(d);
+                        })
+                        .attr("x", margin.left)
+                        .attr("y", 65);
 
             var genes = svgs.append("text")
                         .text(function(d) {
-                          return "Genes: " + d.wellderly.gene.toString();
+                          return verifyGenes(d);
                         })
                         .attr("x", margin.left)
-                        .attr("y", 70);
-
-            var SNPclass = svgs.append("text")
-                        .text(function(d) {
-                          return "Class: " + d.dbsnp.class;
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 90);
-
-            var effect = svgs.append("text")
-                        .text(function(d) {
-                          return "Validated?: " + d.dbsnp.validated;
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 110);
-
-            var impact = svgs.append("text")
-                        .text(function(d) {
-                            return "Coding Impact: " + d.wellderly.coding_impact;
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 130);
-
-            var score = svgs.append("text")
-                        .text(function(d) {
-                          return "MyVariant Score: " + d._score;
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 147)
-                        .attr("font-size", 15);
+                        .attr("y", 85);
 
             // Bar Graph
 
@@ -288,12 +282,20 @@
 
             var bar = svgs.append("g")
                 .attr("transform", function(d, i) { 
-                    return "translate("+margin.left+","+160+")"; 
+                    return "translate("+margin.left+","+150+")"; 
                 });
+
+            bar.append("text")
+               .attr("x",20)
+               .attr("y",-20)
+               .attr("dy", ".35em")
+               .text("Allele frequencies:")
+               .style("fill", "black")
+               .style("font", "20px sans-serif");
 
             bar.append("rect")
                 .attr("width", function(d) {
-                    return x(d.wellderly.alleles[0].freq)
+                    return x(verifyAlleles(d)[0].freq)
                 })
                 .attr("height", barHeight)
                 .attr("x", 20)
@@ -302,7 +304,7 @@
 
             bar.append("rect")
                 .attr("width", function(d) {
-                    return x(d.wellderly.alleles[1].freq)
+                    return x(verifyAlleles(d)[1].freq)
                 })
                 .attr("height", barHeight)
                 .attr("x", 20)
@@ -314,8 +316,8 @@
                 .attr("y", 10)
                 .attr("dy", ".35em")
                 .text(function(d) { 
-                    console.log(d.wellderly.alleles[0].allele);
-                    return d.wellderly.alleles[0].allele;
+                    console.log(verifyAlleles(d)[0].allele);
+                    return verifyAlleles(d)[0].allele;
                 })
                 .style("fill", "black")
                 .style("font", "20px sans-serif");
@@ -325,21 +327,21 @@
                 .attr("y", 30)
                 .attr("dy", ".35em")
                 .text(function(d) { 
-                    console.log(d.wellderly.alleles[1].allele);
-                    return d.wellderly.alleles[1].allele;
+                    console.log(verifyAlleles(d)[1].allele);
+                    return verifyAlleles(d)[1].allele;
                 })
                 .style("fill", "black")
                 .style("font", "20px sans-serif");
 
             bar.append("text")
                 .attr("x", function(d) { 
-                    console.log(d.wellderly.alleles[0].freq);
-                    return x(d.wellderly.alleles[0].freq) + margin.left; 
+                    console.log(verifyAlleles(d)[0].freq);
+                    return x(verifyAlleles(d)[0].freq) + margin.left; 
                 })
                 .attr("y", 10)
                 .attr("dy", ".35em")
                 .text(function(d, i) { 
-                    return d.wellderly.alleles[0].freq.toFixed(2); 
+                    return verifyAlleles(d)[0].freq.toFixed(2); 
                 })
                 .style("fill", "black")
                 .style("font", "14px sans-serif")
@@ -347,23 +349,108 @@
 
             bar.append("text")
                 .attr("x", function(d) { 
-                    console.log(d.wellderly.alleles[1].freq);
-                    return x(d.wellderly.alleles[1].freq) + margin.left; 
+                    console.log(verifyAlleles(d)[1].freq);
+                    return x(verifyAlleles(d)[1].freq) + margin.left; 
                 })
                 .attr("y", 30)
                 .attr("dy", ".35em")
                 .text(function(d, i) { 
-                    return d.wellderly.alleles[1].freq.toFixed(2); 
+                    return verifyAlleles(d)[1].freq.toFixed(2); 
                 })
                 .style("fill", "black")
                 .style("font", "14px sans-serif")
                 .style("text-anchor", "start");
+
+
+        function verifyClinicalStatus(item){
+          if(item.hasOwnProperty("clinvar")) {
+            if(item.clinvar.hasOwnProperty("clinical_significance")) {
+              return "This variant is known to be clincally "+item.clinvar.clinical_significance+" (clinvar)";
+            }
+            else {
+              return "No data found about clinical relevance";
+            }
+          }
+          else {
+            return "No data found about clinical relevance";
+          }
+        }
+
+        function verifyGenes(item){
+          // clinvar.gene.symbol
+          // wellderly.gene
+          if(item.hasOwnProperty("clinvar")) {
+            if(item.clinvar.hasOwnProperty("gene")) {
+              if(item.clinvar.gene.hasOwnProperty("symbol")) {
+                return "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
+              }
+              else {
+                return "No data found on gene";
+              }
+            }
+            else {
+              return "No data found on gene";
+            }
+          }
+          else if(item.hasOwnProperty("wellderly")) {
+            if(item.wellderly.hasOwnProperty("gene")) {
+              return "This variant is associated with the gene(s): "+item.wellderly.gene+" (wellderly)";
+            }
+            else {
+              return "No data found on gene";
+            }
+          }
+          else {
+            return "No data found on gene";
+          }
+        }
+
+        function verifyAlleles(item) {
+          if(item.hasOwnProperty("wellderly")) {
+            if(item.wellderly.hasOwnProperty("alleles")) {
+              var temp = item.wellderly.alleles;
+              temp.push("wellderly");
+              return temp;
+            }
+          }
+          else {
+            return [
+                  {
+                    "allele": "N",
+                    "freq": 0
+                  },
+                  {
+                    "allele": "N",
+                    "freq": 0
+                  }
+                ];
+          }
+        }
+
+        function verifyRSID(item){
+          if(item.hasOwnProperty("clinvar")) {
+            if(item.clinvar.hasOwnProperty("rsid")) {
+              return "This variant also has the RSID: "+item.clinvar.rsid+" (clinvar)";
+            }
+            else {
+              return "No data found on RSID";
+            }
+          }
+          else {
+            return "No data found on RSID";
+          }
+        }
+
 
         document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete"
                    
         }
 
 // Setup status update to notify user of where in the process they are.            
+// myvar.hits.forEach(function(n) {console.log(Object.keys(n));});
+// Next update: use HTML instead of SVG. No text wrap in SVG and bars can be 
+// created with div tags.
+
 
         </script>
     </body>
