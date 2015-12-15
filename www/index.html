@@ -27,41 +27,40 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>EXPANd</title>
+        <title>EXPLANe</title>
     </head>
     <body>
         <div class="app">
-            <h1>EXPANd</h1>
+            <h1>EXPLANe</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Status: Preparing Device</p>
                 <p class="event received">Status: Ready</p>
                 <br>
             </div>
             <div id="uploadarea">
-                <table style="width:100%">
-                <tr>
-                <td>
-                <button class="myVarButton" id="startCamera">Select Poster from Library for Processing</button>
-                </td>
-                <!-- <br><br> -->
-                <td>
-                <button class="myVarButton" id="takePicture">Take Photo of Poster and Process</button>
-                </td>
-                </tr>
-                </table>
+                <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library for Processing" />
+                <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" />
+                <br><br><br>
                 <!-- <img id="canvas" /> -->
             </div>
             <div id="variantResults">
                 <br><br>
                 <div id="tabs">
-                     <ul class="tabrow">
-                        <li class="selected">Variants</li>
-                        <li>URLs</li>
-                        <li>Your Tab Here</li>
-                     </ul>
-                     <br>
+                    <ul class="tabrow">
+                        <li id="geneticsItem" class="selected" onclick="serveGeneticsTab()">Genetics</li>
+                        <li id="urlsItem" onclick="serveURLTab()">URLs</li>
+                        <li id="yourItem">Your Tab Here</li>
+                    </ul><br>
                 </div>
-              <h2 id="resultsTitle">X variants were found:</h2>
+                <div id="geneticsTab">
+                    <h2 id="resultsTitle">No variants were found</h2>
+                </div>
+                <div id="urlsTab">
+                    This tab could present a number of URLs extracted from a poster!
+                </div>
+                <div id="yourTab">
+                    As a developer, you may customize your own tab.
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
@@ -71,7 +70,31 @@
         <script type="text/javascript">
             //$.support.cors = true;
 
-            app.initialize();    
+
+        function serveURLTab() {
+            document.getElementById("geneticsTab").style.display = "none";
+            document.getElementById("urlsTab").style.display = "inline";
+
+            document.getElementById("geneticsItem").classList.remove('selected');
+            document.getElementById("urlsItem").className = "selected";
+        }
+
+        function serveGeneticsTab() {
+            document.getElementById("geneticsTab").style.display = "inline";
+            document.getElementById("urlsTab").style.display = "none";
+
+            document.getElementById("urlsItem").classList.remove('selected');
+            document.getElementById("geneticsItem").className = "selected";
+        }
+
+        function initializeTabs() {
+            document.getElementById("geneticsTab").style.display = "inline";
+            document.getElementById("urlsTab").style.display = "none";
+            document.getElementById("yourTab").style.display = "none";
+        }
+
+        app.initialize();
+        initializeTabs();
 
 
         function init() {
@@ -108,7 +131,12 @@
         }
 
         function onFail(e) {
-            alert('onFail');
+            navigator.notification.alert(
+                'You exited without taking or selecting a picture!',
+                function() { return null;},
+                "EXPLANe",
+                "OKAY"
+            );
             console.log(e);
         }
 
@@ -217,234 +245,284 @@
 
         function MakeSummary(myVariantHitsArray) {
 
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing"
+            if (typeof(myVariantHitsArray) === "undefined") {
+                navigator.notification.alert(
+                    "No variants were recognized in the poster. Remember, EXPLANe only recognizes RSIDs!",
+                    function() { return null;},
+                    "EXPLANe",
+                    "OKAY"
+                )
+            }
+
+            function verifyClinicalStatus(item){
+                if(item.hasOwnProperty("clinvar")) {
+                    if(item.clinvar.hasOwnProperty("clinical_significance")) {
+                        return "This variant is known to be clincally "+item.clinvar.clinical_significance+" (clinvar)";
+                    }
+                    else {
+                        return "No data found about clinical relevance";
+                    }
+                }
+                else {
+                    return "No data found about clinical relevance";
+                }
+            }
+
+            function verifyGenes(item){
+                // clinvar.gene.symbol
+                // wellderly.gene
+                if(item.hasOwnProperty("clinvar")) {
+                    if(item.clinvar.hasOwnProperty("gene")) {
+                        if(item.clinvar.gene.hasOwnProperty("symbol")) {
+                            return "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
+                        }
+                        else {
+                            return "No data found on gene";
+                        }
+                    }
+                    else {
+                        return "No data found on gene";
+                    }
+                }
+                else if(item.hasOwnProperty("wellderly")) {
+                    if(item.wellderly.hasOwnProperty("gene")) {
+                        return "This variant is associated with the gene(s): "+item.wellderly.gene+" (wellderly)";
+                    }
+                    else {
+                        return "No data found on gene";
+                    }
+                }
+                else {
+                    return "No data found on gene";
+                }
+            }
+
+            function verifyAlleles(item) {
+                if(item.hasOwnProperty("wellderly")) {
+                    if(item.wellderly.hasOwnProperty("alleles")) {
+                        var temp = item.wellderly.alleles;
+                        temp.push("wellderly");
+                        return temp;
+                    }
+                }
+                else {
+                    return [
+                        {
+                            "allele": "N",
+                            "freq": 0
+                        },
+                        {
+                            "allele": "N",
+                            "freq": 0
+                        }
+                    ];
+                }
+            }
+
+
+            function verifyRSID(item){
+                if(item.hasOwnProperty("clinvar")) {
+                    if(item.clinvar.hasOwnProperty("rsid")) {
+                        return "This variant also has the RSID: "+item.clinvar.rsid+" (clinvar)";
+                    }
+                    else {
+                        return "No data found on RSID";
+                    }
+                }
+                else {
+                    return "No data found on RSID";
+                }
+            }
+
+            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
 
             var margin = {top: 10,
-                      bottom: 10,
-                      left: 30,
-                      right:30};
+                bottom: 10,
+                left: 30,
+                right:30};
 
             var width = window.innerWidth - margin.right - margin.left; //was 400
             var height = window.innerHeight - margin.top - margin.bottom;
 
-            var variantResults = d3.select("#variantResults")
-                                .style("display", "inline")
-                                .html(myVariantHitsArray.length+" variants were found:<br><br>");
+            var resultsTitle = d3.select("#resultsTitle")
+                    .style("display", "inline")
+                    .html(myVariantHitsArray.length+" variants were found:<br><br>");
 
-            var svgs = d3.select('#variantResults')
-                        .selectAll("svg")
-                        .data(myVariantHitsArray)
-                        .enter()
-                        .append("svg")
-                        .attr("class", function(d) {
-                            return d._id;
-                        })
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom);
-
-            var texts = svgs.append("text")
-                    .attr("x", margin.left)
-                    .attr("y", 25)
-                    .text(function(d) {
+            var leadItem = d3.select('#geneticsTab')
+                    .selectAll("span")
+                    .data(myVariantHitsArray)
+                    .enter()
+                    .append("h1")
+                    .attr("class", function(d) {
+                        return d._id+" title";
+                    }).html(function(d) {
                         return d._id;
-                    })
-                    .attr("font-size", 25);  
+                    });
 
-            var rsids = svgs.append("text")
-                        .text(function(d) {
-                          return verifyRSID(d);
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 45)
-                        .attr("font-size", 20);          
+            var textRSID = leadItem.append("h4")
+                    .html(function(d) {
+                        return verifyRSID(d);
+                    });
 
-            var clinicalsignificances = svgs.append("text")
-                        .text(function(d) {
-                          return verifyClinicalStatus(d);
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 65);
+            var texClinicalSignif = leadItem.append("h4")
+                    .html(function(d) {
+                        return verifyClinicalStatus(d);
+                    });
 
-            var genes = svgs.append("text")
-                        .text(function(d) {
-                          return verifyGenes(d);
-                        })
-                        .attr("x", margin.left)
-                        .attr("y", 85);
+            var genes = leadItem.append("h4")
+                    .html(function(d) {
+                        return verifyGenes(d);
+                    });
 
-            // Bar Graph
 
-            var barHeight = 20;
+
+            // Bar graph below
+            var barHeight = 30+'px';
 
             var x = d3.scale.linear()
-                .domain([0, 1])
-                .range([0, 200]);
+                    .domain([0, 1])
+                    .range([0, 85]);
 
-            var bar = svgs.append("g")
-                .attr("transform", function(d, i) { 
-                    return "translate("+margin.left+","+150+")"; 
-                });
+            var bar = leadItem.append("div")
+                    .attr("class", "chart");
+                    // .style("margin-left", "150px")
+                    // .style("margin-right", "150px");
 
-            bar.append("text")
-               .attr("x",20)
-               .attr("y",-20)
-               .attr("dy", ".35em")
-               .text("Allele frequencies:")
-               .style("fill", "black")
-               .style("font", "20px sans-serif");
+            bar.append("span")
+                    .text(function(d) {
+                        if(typeof(verifyAlleles(d)[2]) !== "undefined") {
+                            return "Allele Frequencies ("+verifyAlleles(d)[2]+"):";
+                        }
+                        else {
+                            return "No allele frequency data found";
+                        }
+                    });
 
-            bar.append("rect")
-                .attr("width", function(d) {
-                    return x(verifyAlleles(d)[0].freq)
-                })
-                .attr("height", barHeight)
-                .attr("x", 20)
-                .attr("y", 0)
-                .style("fill", "#CD6600");
+            // top bar
+            var topbar = bar.append("div")
+                    .attr("class", "topbar");
 
-            bar.append("rect")
-                .attr("width", function(d) {
-                    return x(verifyAlleles(d)[1].freq)
-                })
-                .attr("height", barHeight)
-                .attr("x", 20)
-                .attr("y", 20)
-                .style("fill", "#0099CC");
+            var topbarText = topbar.append("div")
+                    .attr("class", "topbartext")
+                    .style("color", "black")
+                    .style("width", "5%")
+                    .text(function(d) {
+                        if (verifyAlleles(d)[0].allele === "N") {
+                            return "";
+                        }
+                        else {
+                            return verifyAlleles(d)[0].allele;
+                        }
+                    })
+                    .style("float", "left");
 
-            bar.append("text")
-                .attr("x", 0)
-                .attr("y", 10)
-                .attr("dy", ".35em")
-                .text(function(d) { 
-                    console.log(verifyAlleles(d)[0].allele);
-                    return verifyAlleles(d)[0].allele;
-                })
-                .style("fill", "black")
-                .style("font", "20px sans-serif");
+            var topbarBar = topbar.append("div")
+                    .attr("class", "topbarbar")
+                    .style("width", function(d) {
+                        if (verifyAlleles(d)[0].allele === "N" & verifyAlleles(d)[0].freq === 0) {
+                            return "0%";
+                        }
+                        else {
+                            return x(verifyAlleles(d)[0].freq)+"%";
+                        }
+                    })
+                    .style("height", barHeight)
+                    .style("background-color", function(d) {
+                        if (verifyAlleles(d)[0].allele === "N" & verifyAlleles(d)[0].freq === 0) {
+                            return "";
+                        }
+                        else {
+                            return "#0099CC";
+                        }
+                    })
+                    .style("float","left");
 
-            bar.append("text")
-                .attr("x", 0)
-                .attr("y", 30)
-                .attr("dy", ".35em")
-                .text(function(d) { 
-                    console.log(verifyAlleles(d)[1].allele);
-                    return verifyAlleles(d)[1].allele;
-                })
-                .style("fill", "black")
-                .style("font", "20px sans-serif");
+            var topbarNumber = topbar.append("div")
+                    .attr("class", "topbarnumber")
+                    .style("width", function(d) {
+                        return (85-x(verifyAlleles(d)[0].freq))+"%";
+                    })
+                    .text(function(d) {
+                        if (verifyAlleles(d)[0].allele === "N" & verifyAlleles(d)[0].freq === 0) {
+                            return "";
+                        }
+                        else {
+                            return verifyAlleles(d)[0].freq.toFixed(2);
+                        }
+                    })
+                    .style("color", "black")
+                    .style("float", "left");
 
-            bar.append("text")
-                .attr("x", function(d) { 
-                    console.log(verifyAlleles(d)[0].freq);
-                    return x(verifyAlleles(d)[0].freq) + margin.left; 
-                })
-                .attr("y", 10)
-                .attr("dy", ".35em")
-                .text(function(d, i) { 
-                    return verifyAlleles(d)[0].freq.toFixed(2); 
-                })
-                .style("fill", "black")
-                .style("font", "14px sans-serif")
-                .style("text-anchor", "start");
+            // bottom bar
+            var bottombar = bar.append("div")
+                    .attr("class", "bottombar")
+                    .style("clear", "both");
 
-            bar.append("text")
-                .attr("x", function(d) { 
-                    console.log(verifyAlleles(d)[1].freq);
-                    return x(verifyAlleles(d)[1].freq) + margin.left; 
-                })
-                .attr("y", 30)
-                .attr("dy", ".35em")
-                .text(function(d, i) { 
-                    return verifyAlleles(d)[1].freq.toFixed(2); 
-                })
-                .style("fill", "black")
-                .style("font", "14px sans-serif")
-                .style("text-anchor", "start");
+            var bottombarText = bottombar.append("div")
+                    .attr("class", "topbartext")
+                    .style("color", "black")
+                    .style("width", "5%")
+                    .text(function(d) {
+                        if (verifyAlleles(d)[0].allele === "N") {
+                            return "";
+                        }
+                        else {
+                            return verifyAlleles(d)[1].allele;
+                        }
+                    })
+                    .style("float", "left");
+
+            var bottombarBar = bottombar.append("div")
+                    .attr("class", "topbarbar")
+                    .style("width", function(d) {
+                        if (verifyAlleles(d)[1].allele === "N" & verifyAlleles(d)[1].freq === 0) {
+                            return "0%";
+                        }
+                        else {
+                            return x(verifyAlleles(d)[1].freq)+"%";
+                        }
+                    })
+                    .style("height", barHeight)
+                    .style("background-color", function(d) {
+                        if (verifyAlleles(d)[1].allele === "N" & verifyAlleles(d)[1].freq === 0) {
+                            return "";
+                        }
+                        else {
+                            return "#CD6600";
+                        }
+                    })
+                    .style("float","left");
+
+            var bottombarNumber = bottombar.append("div")
+                    .attr("class", "topbarnumber")
+                    .style("width", function(d) {
+                        if (verifyAlleles(d)[1].allele === "N" & verifyAlleles(d)[1].freq === 0) {
+                            return "0%";
+                        }
+                        else {
+                            return (85-x(verifyAlleles(d)[1].freq))+"%";
+                        }
+                    })
+                    .text(function(d) {
+                        if (verifyAlleles(d)[1].allele === "N" & verifyAlleles(d)[1].freq === 0) {
+                            return "";
+                        }
+                        else {
+                            return verifyAlleles(d)[1].freq.toFixed(2);
+                        }
+                    })
+                    .style("color", "black")
+                    .style("float", "left");
 
 
-        function verifyClinicalStatus(item){
-          if(item.hasOwnProperty("clinvar")) {
-            if(item.clinvar.hasOwnProperty("clinical_significance")) {
-              return "This variant is known to be clincally "+item.clinvar.clinical_significance+" (clinvar)";
-            }
-            else {
-              return "No data found about clinical relevance";
-            }
-          }
-          else {
-            return "No data found about clinical relevance";
-          }
-        }
+            var textBreak = leadItem.append("hr").style("clear", "both");
 
-        function verifyGenes(item){
-          // clinvar.gene.symbol
-          // wellderly.gene
-          if(item.hasOwnProperty("clinvar")) {
-            if(item.clinvar.hasOwnProperty("gene")) {
-              if(item.clinvar.gene.hasOwnProperty("symbol")) {
-                return "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
-              }
-              else {
-                return "No data found on gene";
-              }
-            }
-            else {
-              return "No data found on gene";
-            }
-          }
-          else if(item.hasOwnProperty("wellderly")) {
-            if(item.wellderly.hasOwnProperty("gene")) {
-              return "This variant is associated with the gene(s): "+item.wellderly.gene+" (wellderly)";
-            }
-            else {
-              return "No data found on gene";
-            }
-          }
-          else {
-            return "No data found on gene";
-          }
-        }
 
-        function verifyAlleles(item) {
-          if(item.hasOwnProperty("wellderly")) {
-            if(item.wellderly.hasOwnProperty("alleles")) {
-              var temp = item.wellderly.alleles;
-              temp.push("wellderly");
-              return temp;
-            }
-          }
-          else {
-            return [
-                  {
-                    "allele": "N",
-                    "freq": 0
-                  },
-                  {
-                    "allele": "N",
-                    "freq": 0
-                  }
-                ];
-          }
-        }
+            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
 
-        function verifyRSID(item){
-          if(item.hasOwnProperty("clinvar")) {
-            if(item.clinvar.hasOwnProperty("rsid")) {
-              return "This variant also has the RSID: "+item.clinvar.rsid+" (clinvar)";
-            }
-            else {
-              return "No data found on RSID";
-            }
-          }
-          else {
-            return "No data found on RSID";
-          }
         }
 
 
-        document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete"
-                   
-        }
 
 // Setup status update to notify user of where in the process they are.            
 // myvar.hits.forEach(function(n) {console.log(Object.keys(n));});

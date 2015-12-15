@@ -25,7 +25,7 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -34,7 +34,7 @@ body {
         left bottom,
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
-    );
+    );*/
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -48,10 +48,10 @@ body {
 /* Portrait layout (default) */
 .app {
     /*background:url(../img/crossword.png) no-repeat center top; /* 170px x 200px */*/
-    background-size:170px 200px;
+    background-size: 170px 200px;
     position:absolute;             /* position in the center of the screen */
-    left:40%; /* was 50% */
-    top:20%;  /* was 50% */
+    left:35%; /* was 50% */
+    top:10%;  /* was 50% */
     /*height:50px;                   /* text area height */
     /*width:225px;                   /* text area width */
     width:90%;                   /* text area width */
@@ -60,6 +60,7 @@ body {
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
+    vertical-align: middle;
 }
 
 /* Landscape layout (with min-width) */
@@ -127,63 +128,69 @@ h1 {
     height: 200px;
 }
 
-#startCamera {
-    width:50%;
-    height:25%;
-}
-
-#takePicture {
-    width:50%;
-    height:25%;
-}
-
-#variantResults {
+#resultsTitle {
     display:none;
 }
 
 .myVarButton {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
-  color: #ffffff;
-  font-size: 20px;
-  background: #63bd5e;
-  padding: 30px 30px 30px 30px;
-  text-decoration: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    color: #FFFFFF;
+    font-size: 16px;
+    background: #4B946A;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    float: left;
+    display: block;
+    width: 100%;
 }
 
 .tabrow {
-  text-align: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  line-height: 24px;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 24px;
 }
 .tabrow li {
-  margin: 0 10px;
-  padding: 0 10px;
-  border: 1px solid #AAA;
-  background: #ECECEC;
-  display: inline-block;
+    margin: 0 10px;
+    padding: 0 10px;
+    border: 1px solid #AAA;
+    background: #ECECEC;
+    display: inline-block;
 }
 
 .tabrow li.selected {
-  background: #FFF;
-  color: #000;
+    background: #FFF;
+    color: #000;
+    font-weight: bold;
 }
 
 .tabrow {
-  position: relative;
+    position: relative;
 }
 .tabrow:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  border-bottom: 1px solid #AAA;
-  z-index: 1;
+    position: absolute;
+    content: "";
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px solid #AAA;
+    z-index: 1;
 }
 
+.chart div {
+    font: 10px sans-serif;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
+    text-align: left;
+    font-size: large;
+}
 
-
+#uploadarea {
+    text-align:center;
+    margin:auto;
+}
