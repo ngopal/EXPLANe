@@ -248,7 +248,7 @@
             if (typeof(myVariantHitsArray) === "undefined") {
                 navigator.notification.alert(
                     "No variants were recognized in the poster. Remember, EXPLANe only recognizes RSIDs!",
-                    function() { return null;},
+                    function() { console.log("no variants found");},
                     "EXPLANe",
                     "OKAY"
                 )
@@ -344,14 +344,41 @@
             var width = window.innerWidth - margin.right - margin.left; //was 400
             var height = window.innerHeight - margin.top - margin.bottom;
 
-            var resultsTitle = d3.select("#resultsTitle")
-                    .style("display", "inline")
-                    .html(myVariantHitsArray.length+" variants were found:<br><br>");
+            function resetSummary() {
+                d3.selectAll("span").remove();
+                d3.selectAll("h1").remove();
+                d3.selectAll("h4").remove();
+                d3.selectAll(".chart").remove();
+                d3.selectAll("hr").remove();
+            }
+
+            resetSummary();
 
             var leadItem = d3.select('#geneticsTab')
                     .selectAll("span")
-                    .data(myVariantHitsArray)
-                    .enter()
+                    .data(function() {
+                        if (typeof(myVariantHitsArray) === "undefined") {
+                            //resetSummary();
+                            return [];
+                        }
+                        else {
+                            return myVariantHitsArray;
+                        }
+                    })
+                    .enter();
+
+            var resultsTitle = d3.select("#resultsTitle")
+                    .style("display", "inline")
+                    .html(function() {
+                        if (typeof(myVariantHitsArray) === "undefined") {
+                            return "No variants were found:<br><br>";
+                        }
+                        else {
+                            return myVariantHitsArray.length+" variant(s) were found:<br><br>";
+                        }
+                    });
+
+            var variantTitle = leadItem
                     .append("h1")
                     .attr("class", function(d) {
                         return d._id+" title";
@@ -364,7 +391,7 @@
                         return verifyRSID(d);
                     });
 
-            var texClinicalSignif = leadItem.append("h4")
+            var textClinicalSignif = leadItem.append("h4")
                     .html(function(d) {
                         return verifyClinicalStatus(d);
                     });
@@ -373,7 +400,6 @@
                     .html(function(d) {
                         return verifyGenes(d);
                     });
-
 
 
             // Bar graph below
