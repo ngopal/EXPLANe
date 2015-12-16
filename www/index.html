@@ -39,6 +39,7 @@
             </div>
             <div id="uploadarea">
                 <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library for Processing" />
+                <br><br>
                 <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" />
                 <br><br><br>
                 <!-- <img id="canvas" /> -->
@@ -49,7 +50,7 @@
                     <ul class="tabrow">
                         <li id="geneticsItem" class="selected" onclick="serveGeneticsTab()">Genetics</li>
                         <li id="urlsItem" onclick="serveURLTab()">URLs</li>
-                        <li id="yourItem">Your Tab Here</li>
+                        <li id="yourItem" onclick="serveYourTab()">Your Tab Here</li>
                     </ul><br>
                 </div>
                 <div id="geneticsTab">
@@ -74,17 +75,31 @@
         function serveURLTab() {
             document.getElementById("geneticsTab").style.display = "none";
             document.getElementById("urlsTab").style.display = "inline";
+            document.getElementById("yourTab").style.display = "none";
 
             document.getElementById("geneticsItem").classList.remove('selected');
+            document.getElementById("yourItem").classList.remove('selected');
             document.getElementById("urlsItem").className = "selected";
         }
 
         function serveGeneticsTab() {
             document.getElementById("geneticsTab").style.display = "inline";
             document.getElementById("urlsTab").style.display = "none";
+            document.getElementById("yourTab").style.display = "none";
 
             document.getElementById("urlsItem").classList.remove('selected');
+            document.getElementById("yourItem").classList.remove('selected');
             document.getElementById("geneticsItem").className = "selected";
+        }
+
+        function serveYourTab() {
+            document.getElementById("yourTab").style.display = "inline";
+            document.getElementById("geneticsTab").style.display = "none";
+            document.getElementById("urlsTab").style.display = "none";
+
+            document.getElementById("urlsItem").classList.remove('selected');
+            document.getElementById("geneticsItem").classList.remove('selected');
+            document.getElementById("yourItem").className = "selected";
         }
 
         function initializeTabs() {
