@@ -39,9 +39,9 @@
             </div>
             <div id="uploadarea">
                 <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library for Processing" />
-                <br><br>
+                <br>
                 <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" />
-                <br><br><br>
+                <br>
                 <!-- <img id="canvas" /> -->
             </div>
             <div id="variantResults">
@@ -106,6 +106,11 @@
             document.getElementById("geneticsTab").style.display = "inline";
             document.getElementById("urlsTab").style.display = "none";
             document.getElementById("yourTab").style.display = "none";
+
+            document.getElementById("startCamera").style.height = window.innerHeight*0.10 + "px";
+            document.getElementById("startCamera").style.borderRadius = "0px";
+            document.getElementById("takePicture").style.height = window.innerHeight*0.10 + "px";
+            document.getElementById("takePicture").style.borderRadius = "0px";
         }
 
         app.initialize();

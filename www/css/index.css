@@ -133,6 +133,7 @@ h1 {
 }
 
 .myVarButton {
+    -webkit-appearance: none;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
@@ -144,6 +145,7 @@ h1 {
     float: left;
     display: block;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .tabrow {
@@ -196,7 +198,7 @@ h1 {
 }
 
 .appTitle {
-    font-size: x-large;
+    font-size: xx-large;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     text-transform: none;
 }
