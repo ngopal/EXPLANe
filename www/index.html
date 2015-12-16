@@ -432,6 +432,7 @@
                     .attr("class", "topbartext")
                     .style("color", "black")
                     .style("width", "5%")
+                    .style("height", "50%")
                     .text(function(d) {
                         if (verifyAlleles(d)[0].allele === "N") {
                             return "";
@@ -440,7 +441,8 @@
                             return verifyAlleles(d)[0].allele;
                         }
                     })
-                    .style("float", "left");
+                    .style("float", "left")
+                    .style("line-height", barHeight);
 
             var topbarBar = topbar.append("div")
                     .attr("class", "topbarbar")
@@ -468,6 +470,7 @@
                     .style("width", function(d) {
                         return (85-x(verifyAlleles(d)[0].freq))+"%";
                     })
+                    .style("height", "50%")
                     .text(function(d) {
                         if (verifyAlleles(d)[0].allele === "N" & verifyAlleles(d)[0].freq === 0) {
                             return "";
@@ -477,7 +480,8 @@
                         }
                     })
                     .style("color", "black")
-                    .style("float", "left");
+                    .style("float", "left")
+                    .style("line-height", barHeight);
 
             // bottom bar
             var bottombar = bar.append("div")
@@ -496,7 +500,8 @@
                             return verifyAlleles(d)[1].allele;
                         }
                     })
-                    .style("float", "left");
+                    .style("float", "left")
+                    .style("line-height", barHeight);
 
             var bottombarBar = bottombar.append("div")
                     .attr("class", "topbarbar")
@@ -538,7 +543,8 @@
                         }
                     })
                     .style("color", "black")
-                    .style("float", "left");
+                    .style("float", "left")
+                    .style("line-height", barHeight);
 
 
             var textBreak = leadItem.append("hr").style("clear", "both");
