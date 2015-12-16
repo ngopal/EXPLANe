@@ -194,3 +194,9 @@ h1 {
     text-align:center;
     margin:auto;
 }
+
+.appTitle {
+    font-size: x-large;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    text-transform: none;
+}

@@ -31,7 +31,7 @@
     </head>
     <body>
         <div class="app">
-            <h1>EXPLANe</h1>
+            <div class="appTitle">EXPLANe</div>
             <div id="deviceready" class="blink">
                 <p class="event listening">Status: Preparing Device</p>
                 <p class="event received">Status: Ready</p>
@@ -371,7 +371,7 @@
                     .style("display", "inline")
                     .html(function() {
                         if (typeof(myVariantHitsArray) === "undefined") {
-                            return "No variants were found:<br><br>";
+                            return "No variants were found<br><br>";
                         }
                         else {
                             return myVariantHitsArray.length+" variant(s) were found:<br><br>";
