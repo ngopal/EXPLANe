@@ -237,12 +237,11 @@
                 //document.querySelector("#variantItems p").write("RESPONDED");
                 //alert(r.response);
                 //updateUserOnRequestReceived();
-                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response"
-                var rsids = r.response.replace('[', '')
-                                      .replace(']', '')
-                                      .replace(/\"/g, '');
+                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
+                var responseObject = JSON.parse(r.response);
+                
                 //document.write(myVariantUrl.concat(rsids));
-                d3.json(myVariantUrl.concat(rsids), function(d3err, d3data) {
+                d3.json(myVariantUrl.concat(responseObject.rsid), function(d3err, d3data) {
                     if(d3err != null) {
                         //alert("d3ERR", JSON.stringify(d3err));
                         document.write(JSON.stringify(d3err));
