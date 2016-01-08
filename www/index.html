@@ -293,7 +293,7 @@
                     .text(function(d, i) {
                         return (i+1)+". "+d;
                     });
-            
+
             function resetSummary() {
                 d3.selectAll("span").remove();
                 d3.selectAll(".urlListItem").remove();
@@ -326,6 +326,29 @@
                 }
             }
 
+            function verifyPhenotypicRelevance(item){
+                if(item.hasOwnProperty("grasp")) {
+                    if(item.grasp.hasOwnProperty("publication")) {
+                        var phenotypes = [];
+                        item.grasp.publication.forEach(function(pubdetails) {
+                            if(pubdetails.hasOwnProperty("phenotype")) {
+                                phenotypes.push(pubdetails.phenotype);
+                            }
+                            else {
+                                console.log("no phenotype field")
+                            }
+                        });
+                        return "This variant is associated with literature on "+formatArray(phenotypes)+" (grasp)";
+                    }
+                    else {
+                        return "No data found about phenotype";
+                    }
+                }
+                else {
+                    return "No data found about phenotype";
+                }
+            }
+
             function verifyGenes(item){
                 // clinvar.gene.symbol
                 // wellderly.gene
@@ -344,7 +367,7 @@
                 }
                 else if(item.hasOwnProperty("wellderly")) {
                     if(item.wellderly.hasOwnProperty("gene")) {
-                        return "This variant is associated with the gene(s): "+item.wellderly.gene+" (wellderly)";
+                        return "This variant is associated with the gene(s): "+formatArray(item.wellderly.gene)+" (wellderly)";
                     }
                     else {
                         return "No data found on gene";
@@ -387,9 +410,33 @@
                         return "No data found on RSID";
                     }
                 }
+                else if(item.hasOwnProperty("dbsnp")) {
+                    if(item.dbsnp.hasOwnProperty("rsid")) {
+                        return "This variant also has the RSID: "+item.dbsnp.rsid+" (dbsnp)";
+                    }
+                    else {
+                        return "No data found on RSID";
+                    }
+                }
                 else {
                     return "No data found on RSID";
                 }
+            }
+
+            function formatArray(arr){
+                var outStr = "";
+                if (arr.length === 1) {
+                    outStr = arr[0];
+                } else if (arr.length === 2) {
+                    //joins all with "and" but no commas
+                    //example: "bob and sam"
+                    outStr = arr.join(' and ');
+                } else if (arr.length > 2) {
+                    //joins all with commas, but last one gets ", and" (oxford comma!)
+                    //example: "bob, joe, and sam"
+                    outStr = arr.slice(0, -1).join(', ') + ', and ' + arr.slice(-1);
+                }
+                return outStr;
             }
 
             document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
@@ -452,6 +499,11 @@
             var textClinicalSignif = leadItem.append("h4")
                     .html(function(d) {
                         return verifyClinicalStatus(d);
+                    });
+
+            var textPhenotypicRelevance = leadItem.append("h4")
+                    .html(function(d) {
+                        return verifyPhenotypicRelevance(d);
                     });
 
             var genes = leadItem.append("h4")
