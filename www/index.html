@@ -57,7 +57,9 @@
                     <h2 id="resultsTitle">No variants were found</h2>
                 </div>
                 <div id="urlsTab">
-                    This tab could present a number of URLs extracted from a poster!
+                    <div id="urlsTabStartMessage">
+                        This tab could present a number of URLs extracted from a poster!
+                    </div>
                 </div>
                 <div id="yourTab">
                     As a developer, you may customize your own tab.
@@ -239,20 +241,35 @@
                 //updateUserOnRequestReceived();
                 document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 var responseObject = JSON.parse(r.response);
-                
-                //document.write(myVariantUrl.concat(rsids));
-                d3.json(myVariantUrl.concat(responseObject.rsid), function(d3err, d3data) {
-                    if(d3err != null) {
-                        //alert("d3ERR", JSON.stringify(d3err));
-                        document.write(JSON.stringify(d3err));
-                    }
-                    else {
-                        //alert("d3SUCCESS", JSON.stringify(d3data));
-                        var myvar = d3data;
-                        MakeSummary(myvar.hits)
-                    }
-                });
-                //alert(myVariantUrl.concat(rsids));
+
+                responseObject.url = "http://www.google.com,http://nikhilgopal.com";
+
+                if (responseObject.url.length === 0) {
+                   alert("No URLs found in poster");
+                }
+                else {
+                    // Populate urls tab
+                    MakeUrlList(responseObject.url);
+                }
+
+                if (responseObject.rsid.length === 0) {
+                    alert("No RSIDs found in poster");
+                }
+                else {
+                    // Populate the genetics tab with myvariant information
+                    d3.json(myVariantUrl.concat(responseObject.rsid), function(d3err, d3data) {
+                        if(d3err != null) {
+                            //alert("d3ERR", JSON.stringify(d3err));
+                            document.write(JSON.stringify(d3err));
+                        }
+                        else {
+                            //alert("d3SUCCESS", JSON.stringify(d3data));
+                            var myvar = d3data;
+                            MakeSummary(myvar.hits)
+                        }
+                    });
+                }
+
             }
 
         function fail(error) {
@@ -260,6 +277,28 @@
             + " upload error source " + error.source
             + " upload error target " + error.target);
             alert(JSON.stringify(error));
+        }
+
+        function MakeUrlList(urldata) {
+            document.getElementById("urlsTabStartMessage").style.display = "none";
+            resetSummary();
+            var urlArray = urldata.split(",");
+            var urls = d3.select('#urlsTab')
+                    .selectAll("span")
+                    .data(urlArray)
+                    .enter();
+
+            var urlItem = urls.append("p")
+                    .attr("class", "urlListItem")
+                    .text(function(d, i) {
+                        return (i+1)+". "+d;
+                    });
+            
+            function resetSummary() {
+                d3.selectAll("span").remove();
+                d3.selectAll(".urlListItem").remove();
+            }
+
         }
 
         function MakeSummary(myVariantHitsArray) {
