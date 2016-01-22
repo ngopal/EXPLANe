@@ -1,0 +1,116 @@
+--------- beginning of system
+12-17 16:01:28.038  2091  2581 I ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.phonegap.helloworld/.MainActivity (has extras)} from uid 10007 on display 0
+12-17 16:01:28.128  2091  2118 I UsageStatsService: User[0] Rolling over usage stats
+12-17 16:01:28.128  2091  2118 I UsageStatsService: User[0] Flushing usage stats to disk
+12-17 16:01:28.308  2091  2343 I ActivityManager: Start proc 3234:com.phonegap.helloworld/u0a53 for activity com.phonegap.helloworld/.MainActivity
+--------- beginning of main
+12-17 16:01:28.338  3234  3234 I art     : Not late-enabling -Xcheck:jni (already on)
+12-17 16:01:28.428  3234  3234 W System  : ClassLoader referenced unknown path: /data/app/com.phonegap.helloworld-1/lib/x86_64
+12-17 16:01:28.548  2091  2118 I UsageStatsService: User[0] Rollover scheduled @ 2015-12-18 16:00:00(1450483200000)
+12-17 16:01:28.548  2091  2118 I UsageStatsService: User[0] Flushing usage stats to disk
+12-17 16:01:28.698  2091  2118 I UsageStatsService: User[0] Rolling over usage stats complete. Took 570 milliseconds
+12-17 16:01:28.868  2091  2106 W art     : Long monitor contention event with owner method=void com.android.server.wm.WindowAnimator$1.doFrame(long) from WindowAnimator.java:121 waiters=1 for 300ms
+12-17 16:01:29.008  2091  2319 W art     : Long monitor contention event with owner method=void com.android.server.wm.WindowAnimator$1.doFrame(long) from WindowAnimator.java:121 waiters=1 for 270ms
+12-17 16:01:29.018  3234  3234 I WebViewFactory: Loading com.android.webview version Developer Build (code 1)
+12-17 16:01:29.058  3234  3234 W System  : ClassLoader referenced unknown path: /system/app/webview/lib/x86_64
+12-17 16:01:29.128  3234  3234 I cr.library_loader: Time to load native libraries: 0 ms (timestamps 8930-8930)
+12-17 16:01:29.128  3234  3234 I cr.library_loader: Expected native library version number "46.0.2490.89", actual native library version number "46.0.2490.89"
+12-17 16:01:29.138  3234  3234 V WebViewChromiumFactoryProvider: Binding Chromium to main looper Looper (main, tid 1) {cfb7947}
+12-17 16:01:29.138  3234  3234 I cr.library_loader: Expected native library version number "46.0.2490.89", actual native library version number "46.0.2490.89"
+12-17 16:01:29.138  3234  3234 I chromium: [INFO:library_loader_hooks.cc(118)] Chromium logging enabled: level = 0, default verbosity = 0
+12-17 16:01:29.138  3234  3234 I cr.BrowserStartup: Initializing chromium process, singleProcess=true
+12-17 16:01:29.138  3234  3234 E SysUtils: ApplicationContext is null in ApplicationStatus
+--------- beginning of crash
+12-17 16:01:29.238  3234  3234 F libc    : Fatal signal 11 (SIGSEGV), code 1, fault addr 0x0 in tid 3234 (egap.helloworld)
+12-17 16:01:29.358  1006  1006 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+12-17 16:01:29.358  1006  1006 F DEBUG   : Build fingerprint: 'Android/sdk_phone_x86_64/generic_x86_64:6.0/MASTER/2469028:userdebug/test-keys'
+12-17 16:01:29.358  1006  1006 F DEBUG   : Revision: '0'
+12-17 16:01:29.358  1006  1006 F DEBUG   : ABI: 'x86_64'
+12-17 16:01:29.358  1006  1006 F DEBUG   : pid: 3234, tid: 3234, name: egap.helloworld  >>> com.phonegap.helloworld <<<
+12-17 16:01:29.358  1006  1006 F DEBUG   : signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x0
+12-17 16:01:29.358  1006  1006 F DEBUG   :     rax 0000000000000000  rbx 00007fffe6cf5738  rcx ffffffffffffffff  rdx 00007f20f82e8840
+12-17 16:01:29.358  1006  1006 F DEBUG   :     rsi 0000000000000000  rdi 0000000000000000
+12-17 16:01:29.358  1006  1006 F DEBUG   :     r8  00007fffe6cf5468  r9  0000000000000011  r10 00007fffe6cf58c9  r11 0000000000000246
+12-17 16:01:29.358  1006  1006 F DEBUG   :     r12 00007f20f6953f80  r13 00007fffe6cf54e0  r14 00007fffe6cf54e0  r15 00007fffe6cf5510
+12-17 16:01:29.358  1006  1006 F DEBUG   :     cs  0000000000000033  ss  000000000000002b
+12-17 16:01:29.358  1006  1006 F DEBUG   :     rip 00007f20f03e294e  rbp 0000000000000001  rsp 00007fffe6cf5380  eflags 0000000000010202
+12-17 16:01:29.358  1006  1006 F DEBUG   : 
+12-17 16:01:29.358  1006  1006 F DEBUG   : backtrace:
+12-17 16:01:29.358  1006  1006 F DEBUG   :     #00 pc 00000000005ab94e  /system/app/webview/webview.apk (offset 0x34ff000)
+12-17 16:01:29.388  1006  1006 F DEBUG   : 
+12-17 16:01:29.388  1006  1006 F DEBUG   : Tombstone written to: /data/tombstones/tombstone_00
+12-17 16:01:29.388  1006  1006 E DEBUG   : AM write failed: Broken pipe
+12-17 16:01:29.388  2091  2123 I BootReceiver: Copying /data/tombstones/tombstone_00 to DropBox (SYSTEM_TOMBSTONE)
+12-17 16:01:29.418  2091  3258 W ActivityManager:   Force finishing activity com.phonegap.helloworld/.MainActivity
+12-17 16:01:29.448  1951  1951 I Zygote  : Process 3234 exited due to signal (11)
+12-17 16:01:29.748  2091  3258 I WindowManager: Screenshot max retries 4 of Token{d108cdd ActivityRecord{70318b4 u0 com.phonegap.helloworld/.MainActivity t16 f}} appWin=Window{23ccf23 u0 Starting com.phonegap.helloworld} drawState=4
+12-17 16:01:29.748  2091  3258 W ActivityManager: Exception thrown during pause
+12-17 16:01:29.748  2091  3258 W ActivityManager: android.os.DeadObjectException
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at android.os.BinderProxy.transactNative(Native Method)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at android.os.BinderProxy.transact(Binder.java:503)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at android.app.ApplicationThreadProxy.schedulePauseActivity(ApplicationThreadNative.java:727)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityStack.startPausingLocked(ActivityStack.java:867)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityStack.finishActivityLocked(ActivityStack.java:2907)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityStack.finishTopRunningActivityLocked(ActivityStack.java:2763)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityStackSupervisor.finishTopRunningActivityLocked(ActivityStackSupervisor.java:2755)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityManagerService.handleAppCrashLocked(ActivityManagerService.java:11971)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityManagerService.makeAppCrashingLocked(ActivityManagerService.java:11867)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityManagerService.crashApplication(ActivityManagerService.java:12556)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.ActivityManagerService.handleApplicationCrashInner(ActivityManagerService.java:12063)
+12-17 16:01:29.748  2091  3258 W ActivityManager: 	at com.android.server.am.NativeCrashListener$NativeCrashReporter.run(NativeCrashListener.java:86)
+12-17 16:01:29.758  2091  2564 W art     : Long monitor contention event with owner method=void com.android.server.am.ActivityManagerService.crashApplication(com.android.server.am.ProcessRecord, android.app.ApplicationErrorReport$CrashInfo) from ActivityManagerService.java:12502 waiters=2 for 300ms
+12-17 16:01:29.758  2091  2564 I ActivityManager: Process com.phonegap.helloworld (pid 3234) has died
+12-17 16:01:29.818  2091  2125 W WindowManager: On display=0 Rebuild removed 2 windows but added 1
+12-17 16:01:29.818  2091  2125 W WindowManager: java.lang.RuntimeException: here
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.rebuildAppWindowListLocked(WindowManagerService.java:8832)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.rebuildAppWindowListLocked(WindowManagerService.java:8756)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.handleAppTransitionReadyLocked(WindowManagerService.java:9263)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.performLayoutAndPlaceSurfacesLockedInner(WindowManagerService.java:10170)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.performLayoutAndPlaceSurfacesLockedLoop(WindowManagerService.java:8980)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.performLayoutAndPlaceSurfacesLocked(WindowManagerService.java:8927)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService.-wrap6(WindowManagerService.java)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.wm.WindowManagerService$H.handleMessage(WindowManagerService.java:7822)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at android.os.Handler.dispatchMessage(Handler.java:102)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at android.os.Looper.loop(Looper.java:148)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at android.os.HandlerThread.run(HandlerThread.java:61)
+12-17 16:01:29.818  2091  2125 W WindowManager: 	at com.android.server.ServiceThread.run(ServiceThread.java:46)
+12-17 16:01:29.818  2091  2125 W WindowManager: This window was lost: Window{23ccf23 u0 Starting com.phonegap.helloworld}
+12-17 16:01:29.818  2091  2125 W WindowManager: mDisplayId=-1 stackId=4 mSession=Session{bd1a017 2091:1000} mClient=android.view.ViewRootImpl$W@ae58052
+12-17 16:01:29.818  2091  2125 W WindowManager: mOwnerUid=1000 mShowToOwnerOnly=false package=com.phonegap.helloworld appop=NONE
+12-17 16:01:29.818  2091  2125 W WindowManager: mAttrs=WM.LayoutParams{(0,0)(fillxfill) sim=#20 ty=3 fl=#1830118 pfl=0x11 wanim=0x1030001 needsMenuKey=2}
+12-17 16:01:29.818  2091  2125 W WindowManager: Requested w=720 h=1184 mLayoutSeq=155
+12-17 16:01:29.818  2091  2125 W WindowManager: mBaseLayer=21000 mSubLayer=0 mAnimLayer=21005+0=21005 mLastLayer=21010
+12-17 16:01:29.818  2091  2125 W WindowManager: mToken=AppWindowToken{3130c20 token=Token{d108cdd ActivityRecord{70318b4 u0 com.phonegap.helloworld/.MainActivity t16}}}
+12-17 16:01:29.818  2091  2125 W WindowManager: mRootToken=AppWindowToken{3130c20 token=Token{d108cdd ActivityRecord{70318b4 u0 com.phonegap.helloworld/.MainActivity t16}}}
+12-17 16:01:29.818  2091  2125 W WindowManager: mAppToken=AppWindowToken{3130c20 token=Token{d108cdd ActivityRecord{70318b4 u0 com.phonegap.helloworld/.MainActivity t16}}}
+12-17 16:01:29.818  2091  2125 W WindowManager: mViewVisibility=0x0 mHaveFrame=true mObscured=false
+12-17 16:01:29.818  2091  2125 W WindowManager: mSeq=0 mSystemUiVisibility=0x0
+12-17 16:01:29.818  2091  2125 W WindowManager: mGivenContentInsets=[0,0][0,0] mGivenVisibleInsets=[0,0][0,0]
+12-17 16:01:29.818  2091  2125 W WindowManager: mConfiguration={1.0 310mcc260mnc en_US ldltr sw360dp w360dp h568dp 320dpi nrml port finger qwerty/v/v -nav/h s.6}
+12-17 16:01:29.818  2091  2125 W WindowManager: mHasSurface=false mShownFrame=[0.0,0.0][720.0,1184.0] isReadyForDisplay()=false
+12-17 16:01:29.818  2091  2125 W WindowManager: mFrame=[0,0][720,1184] last=[0,0][720,1184]
+12-17 16:01:29.818  2091  2125 W WindowManager: mSystemDecorRect=[0,48][720,1184] last=[0,0][0,0] mLastClipRect=[0,48][720,1184]
+12-17 16:01:29.818  2091  2125 W WindowManager: Frames: containing=[0,0][720,1184] parent=[0,0][720,1184]
+12-17 16:01:29.818  2091  2125 W WindowManager:     display=[0,0][720,1184] overscan=[0,0][720,1280]
+12-17 16:01:29.818  2091  2125 W WindowManager:     content=[0,48][720,1184] visible=[0,48][720,1184]
+12-17 16:01:29.818  2091  2125 W WindowManager:     decor=[0,48][720,1184]
+12-17 16:01:29.818  2091  2125 W WindowManager:     outset=[0,0][0,0]
+12-17 16:01:29.818  2091  2125 W WindowManager: Cur insets: overscan=[0,0][0,0] content=[0,48][0,0] visible=[0,48][0,0] stable=[0,48][0,0] outsets=[0,0][0,0]
+12-17 16:01:29.818  2091  2125 W WindowManager: Lst insets: overscan=[0,0][0,0] content=[0,48][0,0] visible=[0,48][0,0] stable=[0,48][0,0] physical=[0,0][0,0] outset=[0,0][0,0]
+12-17 16:01:29.818  2091  2125 W WindowManager: WindowStateAnimator{cf816e4 Starting com.phonegap.helloworld}:
+12-17 16:01:29.818  2091  2125 W WindowManager: mExiting=false mRemoveOnExit=false mDestroying=false mRemoved=true
+12-17 16:01:29.818  2091  2125 W WindowManager: Current app token list:
+12-17 16:01:29.818  2091  2125 V WindowManager:   Stack #0 tasks from bottom to top:
+12-17 16:01:29.818  2091  2125 V WindowManager:     Task #12 activities from bottom to top:
+12-17 16:01:29.818  2091  2125 V WindowManager:       activity #0: Token{1d5d4ff ActivityRecord{ea1c41e u0 com.android.launcher3/.Launcher t12}}
+12-17 16:01:29.818  2091  2125 W WindowManager: Final window list:
+12-17 16:01:29.818  2091  2125 V WindowManager:  Display #0
+12-17 16:01:29.818  2091  2125 V WindowManager:   #6: Window{a76374b u0 NavigationBar}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #5: Window{cfe9b0d u0 StatusBar}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #4: Window{f063c22 u0 KeyguardScrim}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #3: Window{7ffb476 u0 Application Error: com.phonegap.helloworld}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #2: Window{2898d90 u0 AssistPreviewPanel}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #1: Window{8e9a816 u0 com.android.launcher3/com.android.launcher3.Launcher}
+12-17 16:01:29.818  2091  2125 V WindowManager:   #0: Window{c2303f6 u0 com.android.systemui.ImageWallpaper}
+12-17 16:01:34.028  2091  2597 W InputMethodManagerService: Window already focused, ignoring focus gain of: com.android.internal.view.IInputMethodClient$Stub$Proxy@677058b attribute=null, token = android.os.BinderProxy@9d92931
+12-17 16:01:34.558  2091  2125 W AppOps  : Finishing op nesting under-run: uid 1000 pkg android code 24 time=0 duration=0 nesting=0

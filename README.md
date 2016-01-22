@@ -22,4 +22,20 @@ http://www.panopticdev.com/blog2014/phonegap-mac-osx-setup-configuration-android
 # Personal Notes
 Be sure to debug and develop using the 'cordova serve' command because it compiles and serves libraries the correct way (rather than forcing it with 'python -m SimpleHTTPServer' in the 'www' directory).
 
+# On Getting The Android Emulator To Work
+To get android to work:
+edited emulator settings to be high quality (android avd)
+edited config.xml to be android sdk min 14
+cordova emulate android --target=Nexus7-22
 
+$./adb shell
+$su
+mount -o rw,remount rootfs /
+chmod 777 /mnt/sdcard
+exit
+
+adb shell mkdir /sdcard/Pictures
+adb push mypic.jpg /sdcard/Pictures
+
+http://stackoverflow.com/questions/2083709/android-emulator-sdcard-push-error-read-only-file-system
+http://stackoverflow.com/questions/5151744/upload-picture-to-emulator-gallery

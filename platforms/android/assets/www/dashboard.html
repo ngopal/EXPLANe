@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<script type="text/javascript">
+var myvar = {
+    "hits": [
+        {
+            "_id": "chr1:g.218631822G>A",
+            "_score": 6.060483,
+            "dbsnp": {
+                "allele_origin": "unspecified",
+                "alleles": [
+                    {
+                        "allele": "G",
+                        "freq": 0.9784
+                    },
+                    {
+                        "allele": "A",
+                        "freq": 0.02157
+                    }
+                ],
+                "alt": "A",
+                "chrom": "1",
+                "class": "SNV",
+                "dbsnp_build": 129,
+                "flags": [
+                    "ASP",
+                    "G5",
+                    "G5A",
+                    "GNO",
+                    "KGPhase1",
+                    "KGPhase3",
+                    "SLO"
+                ],
+                "gmaf": 0.02157,
+                "hg19": {
+                    "end": 218631823,
+                    "start": 218631822
+                },
+                "ref": "G",
+                "rsid": "rs58991260",
+                "validated": true,
+                "var_subtype": "ts",
+                "vartype": "snp"
+            },
+            "snpeff": {
+                "ann": {
+                    "effect": "intergenic_region",
+                    "feature_id": "TGFB2-LYPLAL1-AS1",
+                    "feature_type": "intergenic_region",
+                    "gene_id": "TGFB2-LYPLAL1-AS1",
+                    "gene_name": "TGFB2-LYPLAL1-AS1",
+                    "putative_impact": "MODIFIER"
+                }
+            },
+            "vcf": {
+                "alt": "A",
+                "position": "218631822",
+                "ref": "G"
+            },
+            "wellderly": {
+                "alleles": [
+                    {
+                        "allele": "A",
+                        "freq": 0.0025
+                    },
+                    {
+                        "allele": "G",
+                        "freq": 0.9975
+                    }
+                ],
+                "alt": "A",
+                "chrom": "1",
+                "gene": "TGFB2",
+                "genotypes": [
+                    {
+                        "count": 1,
+                        "freq": 0.005,
+                        "genotype": "G/A"
+                    },
+                    {
+                        "count": 199,
+                        "freq": 0.995,
+                        "genotype": "G/G"
+                    }
+                ],
+                "hg19": {
+                    "end": 218631822,
+                    "start": 218631822
+                },
+                "pos": 218631822,
+                "ref": "G",
+                "vartype": "snp"
+            }
+        },
+        {
+            "_id": "chr17:g.44076665A>G",
+            "_score": 4.285507,
+            "cadd": {
+                "1000g": {
+                    "af": 0.12,
+                    "afr": 0.02,
+                    "amr": 0.19,
+                    "asn": 0.002,
+                    "eur": 0.23
+                },
+                "alt": "G",
+                "anc": "G",
+                "annotype": "CodingTranscript",
+                "bstatistic": 615,
+                "chmm": {
+                    "bivflnk": 0,
+                    "enh": 0.008,
+                    "enhbiv": 0,
+                    "het": 0,
+                    "quies": 0.614,
+                    "reprpc": 0.047,
+                    "reprpcwk": 0.134,
+                    "tssa": 0,
+                    "tssaflnk": 0,
+                    "tssbiv": 0,
+                    "tx": 0.071,
+                    "txflnk": 0,
+                    "txwk": 0.079,
+                    "znfrpts": 0
+                },
+                "chrom": 17,
+                "consdetail": "missense",
+                "consequence": "NON_SYNONYMOUS",
+                "consscore": 7,
+                "cpg": 0.03,
+                "dna": {
+                    "helt": 0.03,
+                    "mgw": 0.4,
+                    "prot": 3.05,
+                    "roll": 3.04
+                },
+                "encode": {
+                    "h3k27ac": 3,
+                    "h3k4me1": 2.36,
+                    "h3k4me3": 2.32,
+                    "nucleo": 2.9
+                },
+                "esp": {
+                    "af": 0.165,
+                    "afr": 0.047,
+                    "eur": 0.22
+                },
+                "exon": "1/1",
+                "fitcons": 0.519151,
+                "gc": 0.56,
+                "gene": {
+                    "ccds_id": "CCDS54136.1",
+                    "cds": {
+                        "cdna_pos": 50,
+                        "cds_pos": 20,
+                        "rel_cdna_pos": 0.11,
+                        "rel_cds_pos": 0.05
+                    },
+                    "feature_id": "ENST00000537309",
+                    "gene_id": "ENSG00000256762",
+                    "genename": "STH",
+                    "prot": {
+                        "protpos": 7,
+                        "rel_prot_pos": 0.05
+                    }
+                },
+                "gerp": {
+                    "n": 1.27,
+                    "s": -0.939
+                },
+                "grantham": 43,
+                "isderived": "FALSE",
+                "isknownvariant": "TRUE",
+                "istv": "FALSE",
+                "length": 0,
+                "mapability": {
+                    "20bp": 1,
+                    "35bp": 1
+                },
+                "min_dist_tse": 396,
+                "min_dist_tss": 49,
+                "mutindex": -44,
+                "naa": "R",
+                "oaa": "Q",
+                "phast_cons": {
+                    "mammalian": 0,
+                    "primate": 0.004,
+                    "vertebrate": 0
+                },
+                "phred": 1.653,
+                "phylop": {
+                    "mammalian": -0.311,
+                    "primate": -0.673,
+                    "vertebrate": -0.282
+                },
+                "polyphen": {
+                    "cat": "benign",
+                    "val": 0
+                },
+                "pos": 44076665,
+                "rawscore": -0.14182,
+                "ref": "A",
+                "segway": "R5",
+                "type": "SNV"
+            },
+            "dbnsfp": {
+                "1000gp1": {
+                    "ac": 439,
+                    "af": 0.08765974440894568,
+                    "afr_ac": 27,
+                    "afr_af": 0.02042360060514372,
+                    "amr_ac": 109,
+                    "amr_af": 0.15706051873198848,
+                    "eas_ac": 1,
+                    "eas_af": 0.000992063492063492,
+                    "eur_ac": 242,
+                    "eur_af": 0.24055666003976142,
+                    "sas_ac": 60,
+                    "sas_af": 0.06134969325153374
+                },
+                "aa": {
+                    "alt": "R",
+                    "codonpos": 2,
+                    "pos": 7,
+                    "ref": "Q",
+                    "refcodon": "CAA"
+                },
+                "alspac": {
+                    "ac": 930,
+                    "af": 0.24130773222625843
+                },
+                "alt": "G",
+                "ancestral_allele": "G",
+                "cds_strand": "+",
+                "chrom": "17",
+                "ensembl": {
+                    "geneid": "ENSG00000256762",
+                    "transcriptid": "ENST00000537309"
+                },
+                "esp6500": {
+                    "aa_ac": 187,
+                    "aa_af": 0.047389761784085147,
+                    "ea_ac": 1836,
+                    "ea_af": 0.22024952015355087
+                },
+                "exac": {
+                    "ac": 17535,
+                    "adj_ac": 17481,
+                    "adj_af": 0.1459,
+                    "af": 0.145,
+                    "afr_ac": 467,
+                    "afr_af": 0.0479,
+                    "amr_ac": 1260,
+                    "amr_af": 0.1097,
+                    "eas_ac": 7,
+                    "eas_af": 0.0008132,
+                    "fin_ac": 426,
+                    "fin_af": 0.06484,
+                    "nfe_ac": 13960,
+                    "nfe_af": 0.2105,
+                    "sas_ac": 1239,
+                    "sas_af": 0.07636
+                },
+                "fathmm": {
+                    "pred": "T",
+                    "rankscore": 0.51723,
+                    "score": 0.69
+                },
+                "genename": "STH",
+                "gerp++": {
+                    "nr": 1.27,
+                    "rs": -0.939,
+                    "rs_rankscore": 0.09805
+                },
+                "hg18": {
+                    "end": 41432502,
+                    "start": 41432502
+                },
+                "hg19": {
+                    "end": 44076665,
+                    "start": 44076665
+                },
+                "hg38": {
+                    "end": 45999299,
+                    "start": 45999299
+                },
+                "lr": {
+                    "pred": "T",
+                    "rankscore": 0.00011,
+                    "score": 0
+                },
+                "metasvm": {
+                    "pred": "T",
+                    "rankscore": 0.18279,
+                    "score": -1.0368
+                },
+                "mutationassessor": {
+                    "pred": "N",
+                    "rankscore": 0.08161,
+                    "score": 0
+                },
+                "mutationtaster": {
+                    "AAE": [
+                        ".",
+                        "Q7R"
+                    ],
+                    "converted_rankscore": 0.08979,
+                    "model": [
+                        "without_aae",
+                        "simple_aae"
+                    ],
+                    "pred": [
+                        "P",
+                        "P"
+                    ],
+                    "score": [
+                        1,
+                        1
+                    ]
+                },
+                "phastcons_7way": {
+                    "vertebrate": 0.011,
+                    "vertebrate_rankscore": 0.0873
+                },
+                "phylop_7way": {
+                    "vertebrate": -1.737,
+                    "vertebrate_rankscore": 0.00311
+                },
+                "polyphen2": {
+                    "hdiv": {
+                        "pred": "B",
+                        "rankscore": 0.02634,
+                        "score": 0
+                    },
+                    "hvar": {
+                        "pred": "B",
+                        "rankscore": 0.01257,
+                        "score": 0
+                    }
+                },
+                "provean": {
+                    "pred": "N",
+                    "rankscore": 0.00142,
+                    "score": 3
+                },
+                "ref": "A",
+                "reliability_index": 8,
+                "rsid": "rs62063857",
+                "siphy_29way": {
+                    "logodds": 5.2426,
+                    "logodds_rankscore": 0.14638,
+                    "pi": {
+                        "a": 0.5798,
+                        "c": 0,
+                        "g": 0.4202,
+                        "t": 0
+                    }
+                },
+                "twinsuk": {
+                    "ac": 864,
+                    "af": 0.23300970873786409
+                },
+                "uniprot": {
+                    "acc": "Q8IWL8",
+                    "pos": "7"
+                }
+            },
+            "dbsnp": {
+                "allele_origin": "unspecified",
+                "alleles": [
+                    {
+                        "allele": "A",
+                        "freq": 0.9123
+                    },
+                    {
+                        "allele": "G",
+                        "freq": 0.08766
+                    }
+                ],
+                "alt": "G",
+                "chrom": "17",
+                "class": "SNV",
+                "dbsnp_build": 129,
+                "flags": [
+                    "ASP",
+                    "G5",
+                    "G5A",
+                    "GNO",
+                    "HD",
+                    "INT",
+                    "KGPhase1",
+                    "KGPhase3",
+                    "NSM",
+                    "PM",
+                    "PMC",
+                    "REF",
+                    "SLO"
+                ],
+                "gmaf": 0.08766,
+                "hg19": {
+                    "end": 44076666,
+                    "start": 44076665
+                },
+                "ref": "A",
+                "rsid": "rs62063857",
+                "validated": true,
+                "var_subtype": "ts",
+                "vartype": "snp"
+            },
+            "evs": {
+                "allele_count": {
+                    "african_american": {
+                        "A": 3759,
+                        "G": 187
+                    },
+                    "all": {
+                        "A": 10259,
+                        "G": 2023
+                    },
+                    "european_american": {
+                        "A": 6500,
+                        "G": 1836
+                    }
+                },
+                "alt": "G",
+                "avg_sample_read": 49,
+                "chimp_allele": "G",
+                "chrom": 17,
+                "coding_dna_size": [
+                    1059,
+                    2277,
+                    1152,
+                    1326,
+                    1233,
+                    1146,
+                    1239,
+                    2331,
+                    387
+                ],
+                "conservation": {
+                    "gerp": -0.9,
+                    "phast_cons": 0
+                },
+                "dbsnp_version": 129,
+                "filter_status": "PASS",
+                "function_gvs": [
+                    "intron",
+                    "missense"
+                ],
+                "gene": [
+                    {
+                        "accession": "NM_016841.4",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_016835.4",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_016834.4",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_005910.5",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_001203252.1",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_001203251.1",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_001123067.3",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_001123066.3",
+                        "symbol": "MAPT,STH"
+                    },
+                    {
+                        "accession": "NM_001007532.2",
+                        "symbol": "MAPT,STH"
+                    }
+                ],
+                "genotype_count": {
+                    "african_american": {
+                        "AA": 1793,
+                        "GA": 173,
+                        "GG": 7
+                    },
+                    "all_genotype": {
+                        "AA": 4326,
+                        "GA": 1607,
+                        "GG": 208
+                    },
+                    "european_american": {
+                        "AA": 2533,
+                        "GA": 1434,
+                        "GG": 201
+                    }
+                },
+                "hg19": {
+                    "end": 44076665,
+                    "start": 44076665
+                },
+                "hg38": {
+                    "end": 45999299,
+                    "start": 45999299
+                },
+                "hgvs": [
+                    {
+                        "coding": "c.648+2635A>G"
+                    },
+                    {
+                        "coding": "c.1773+2635A>G"
+                    },
+                    {
+                        "coding": "c.648+2635A>G"
+                    },
+                    {
+                        "coding": "c.822+2635A>G"
+                    },
+                    {
+                        "coding": "c.822+2635A>G"
+                    },
+                    {
+                        "coding": "c.735+2635A>G"
+                    },
+                    {
+                        "coding": "c.735+2635A>G"
+                    },
+                    {
+                        "coding": "c.1827+2635A>G"
+                    },
+                    {
+                        "coding": "c.20A>G",
+                        "protein": "p.(Q7R)"
+                    }
+                ],
+                "ma_fin_percent": {
+                    "african_american": 4.739,
+                    "all": 16.4713,
+                    "european_american": 22.025
+                },
+                "on_illumina_human_exome_chip": "yes",
+                "polyphen2": [
+                    {
+                        "class": "u",
+                        "score": "n"
+                    },
+                    {
+                        "class": "b",
+                        "score": "e"
+                    }
+                ],
+                "ref": "A",
+                "ref_base_ncbi": "A",
+                "rsid": "rs62063857"
+            },
+            "exac": {
+                "ac": {
+                    "ac": 17535,
+                    "ac_adj": 17481,
+                    "ac_afr": 467,
+                    "ac_amr": 1260,
+                    "ac_eas": 7,
+                    "ac_fin": 426,
+                    "ac_nfe": 13960,
+                    "ac_oth": 122,
+                    "ac_sas": 1239
+                },
+                "af": 0.145,
+                "alleles": "G",
+                "alt": "G",
+                "an": {
+                    "an": 120918,
+                    "an_adj": 119848,
+                    "an_afr": 9750,
+                    "an_amr": 11482,
+                    "an_eas": 8608,
+                    "an_fin": 6570,
+                    "an_nfe": 66320,
+                    "an_oth": 892,
+                    "an_sas": 16226
+                },
+                "baseqranksum": -0.838,
+                "chrom": "17",
+                "clippingranksum": -0.12,
+                "culprit": "MQ",
+                "dp": 1803471,
+                "fs": 0,
+                "het": {
+                    "ac_het": 14131,
+                    "het_afr": 425,
+                    "het_amr": 1094,
+                    "het_eas": 7,
+                    "het_fin": 398,
+                    "het_nfe": 10972,
+                    "het_oth": 104,
+                    "het_sas": 1131
+                },
+                "hom": {
+                    "ac_hom": 1675,
+                    "hom_afr": 21,
+                    "hom_amr": 83,
+                    "hom_eas": 0,
+                    "hom_fin": 14,
+                    "hom_nfe": 1494,
+                    "hom_oth": 9,
+                    "hom_sas": 54
+                },
+                "inbreedingcoeff": 0.0543,
+                "mq": {
+                    "mq": 60,
+                    "mq0": 0,
+                    "mqranksum": 0.07
+                },
+                "ncc": 1522,
+                "pos": 44076665,
+                "qd": 14.82,
+                "qual": 16257948.62,
+                "readposranksum": 0.149,
+                "ref": "A",
+                "type": "snp",
+                "vqslod": 4.12
+            },
+            "grasp": {
+                "creation_date": "9/15/2014",
+                "discovery": [
+                    {
+                        "mixed": 4258,
+                        "total_samples": 4258
+                    },
+                    {
+                        "european": 11375,
+                        "total_samples": 11375
+                    }
+                ],
+                "exclusively_male_female": "n",
+                "gwas_ancestry_description": [
+                    "Mixed",
+                    "European"
+                ],
+                "hg19": {
+                    "chr": 17,
+                    "pos": 44076665
+                },
+                "hupfield": "9/15/2014",
+                "in_gene": "(MAPT)(STH)",
+                "includes_male_female_only_analyses": "n",
+                "initial_sample_description": [
+                    "2",
+                    "197 Other ancestry cases",
+                    " 2",
+                    "061 Other ancestry controls",
+                    "2861 cases and 8514 controls"
+                ],
+                "last_curation_date": "9/15/2014",
+                "platform_snps_passing_qc": [
+                    "Illumina and Perlegen [7",
+                    "123",
+                    "920] (imputed)",
+                    [
+                        "Illumina & imputed [237",
+                        "579]"
+                    ]
+                ],
+                "publication": [
+                    {
+                        "date_pub": "3/15/2012",
+                        "journal": "PLoS Genet",
+                        "location_within_paper": "Table S1",
+                        "p_value": 2.11e-12,
+                        "paper_phenotype_categories": "Neuro;Parkinson's disease",
+                        "paper_phenotype_description": "Parkinson's disease",
+                        "phenotype": "Parkinson's disease",
+                        "pmid": 22438815,
+                        "snpid": "rs62063857",
+                        "title": "Comprehensive research synopsis and systematic meta-analyses in Parkinson's disease genetics: The PDGene database."
+                    },
+                    {
+                        "date_pub": "9/9/2012",
+                        "journal": "Nat Genet",
+                        "location_within_paper": "Table S6",
+                        "p_value": 3.032e-9,
+                        "paper_phenotype_categories": "Hepatic;Inflammation",
+                        "paper_phenotype_description": "Primary biliary cirrhosis",
+                        "phenotype": "Primary biliary cirrhosis",
+                        "pmid": 22961000,
+                        "snpid": "rs62063857",
+                        "title": "Dense fine-mapping study identifies new susceptibility loci for primary biliary cirrhosis."
+                    }
+                ],
+                "replication": {
+                    "mixed": 98080,
+                    "total_samples": 98080
+                },
+                "replication_sample_description": [
+                    "Up to 98",
+                    "080 individuals of European and Asian ancestry",
+                    "NR"
+                ],
+                "sift": "Q7R:(Q>R);(0.33>1.00);(TOLERATED>TOLERATED)",
+                "srsid": 62063857
+            },
+            "mutdb": {
+                "alt": "G",
+                "chrom": "17",
+                "hg19": {
+                    "end": 44076665,
+                    "start": 44076665
+                },
+                "mutpred_score": 0.126,
+                "ref": "A",
+                "rsid": "rs62063857, rs117086266",
+                "strand": "p",
+                "uniprot_id": "VAR_019548"
+            },
+            "snpeff": {
+                "ann": [
+                    {
+                        "cdna": {
+                            "position": "50",
+                            "length": "445"
+                        },
+                        "cds": {
+                            "position": "20",
+                            "length": "387"
+                        },
+                        "effect": "missense_variant",
+                        "feature_id": "NM_001007532.2",
+                        "feature_type": "transcript",
+                        "gene_id": "STH",
+                        "gene_name": "STH",
+                        "hgvs_c": "c.20A>G",
+                        "hgvs_p": "p.Gln7Arg",
+                        "protein": {
+                            "position": "7",
+                            "length": "128"
+                        },
+                        "putative_impact": "MODERATE",
+                        "rank": "1",
+                        "total": "1",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_001123066.3.2",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.1827+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "11",
+                        "total": "14",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_001123067.3",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.735+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "7",
+                        "total": "10",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_001203251.1",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.735+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "7",
+                        "total": "9",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_001203252.1.2",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.822+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "8",
+                        "total": "10",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_005910.5",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.822+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "8",
+                        "total": "11",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_016834.4",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.648+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "6",
+                        "total": "9",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_016835.4",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.1773+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "10",
+                        "total": "13",
+                        "transcript_biotype": "Coding"
+                    },
+                    {
+                        "effect": "intron_variant",
+                        "feature_id": "NM_016841.4.2",
+                        "feature_type": "transcript",
+                        "gene_id": "MAPT.2",
+                        "gene_name": "MAPT",
+                        "hgvs_c": "c.648+2635A>G",
+                        "putative_impact": "MODIFIER",
+                        "rank": "6",
+                        "total": "8",
+                        "transcript_biotype": "Coding"
+                    }
+                ]
+            },
+            "vcf": {
+                "alt": "G",
+                "position": "44076665",
+                "ref": "A"
+            },
+            "wellderly": {
+                "adviser_score": "6~Progressive supranuclear palsy, association with~Common, Known Causative Mutation",
+                "allele_aa": "R",
+                "alleles": [
+                    {
+                        "allele": "A",
+                        "freq": 0.8
+                    },
+                    {
+                        "allele": "G",
+                        "freq": 0.2
+                    }
+                ],
+                "alt": "G",
+                "chrom": "17",
+                "coding_impact": "Nonsynonymous",
+                "gene": [
+                    "MAPT",
+                    "STH"
+                ],
+                "genotypes": [
+                    {
+                        "count": 66,
+                        "freq": 0.33,
+                        "genotype": "A/G"
+                    },
+                    {
+                        "count": 7,
+                        "freq": 0.035,
+                        "genotype": "G/G"
+                    },
+                    {
+                        "count": 127,
+                        "freq": 0.635,
+                        "genotype": "A/A"
+                    }
+                ],
+                "hg19": {
+                    "end": 44076665,
+                    "start": 44076665
+                },
+                "original_aa": "Q",
+                "polyphen": "benign",
+                "pos": 44076665,
+                "protein_pos": "7",
+                "ref": "A",
+                "vartype": "snp"
+            }
+        }
+    ],
+    "max_score": 6.060483,
+    "took": 5,
+    "total": 2
+};
+
+function MakeSummary(myVariantHitsArray) {
+
+    var margin = {top: 10,
+              bottom: 10,
+              left: 30,
+              right:30};
+
+    var width = 400 - margin.right - margin.left;
+    var height = 400 - margin.top - margin.bottom;
+
+    var svgs = d3.selectAll("svg")
+                .data(myVariantHitsArray)
+                .enter()
+                .append("svg")
+                .attr("class", function(d) {
+                    return d._id;
+                })
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+    var texts = svgs.append("text")
+                .attr("x", margin.left)
+                .attr("y", 25)
+                .text(function(d) {
+                    return d._id;
+                })
+                .attr("font-size", 25);
+
+    var rsids = svgs.append("text")
+          .text(function(d) {
+            return d.dbsnp.rsid;
+          })
+          .attr("x", margin.left)
+          .attr("y", 50)
+          .attr("font-size", 20);
+
+    var genes = svgs.append("text")
+                .text(function(d) {
+                  return "Genes: " + d.wellderly.gene.toString();
+                })
+                .attr("x", margin.left)
+                .attr("y", 70);
+
+    var SNPclass = svgs.append("text")
+                .text(function(d) {
+                  return "Class: " + d.dbsnp.class;
+                })
+                .attr("x", margin.left)
+                .attr("y", 90);
+
+    var effect = svgs.append("text")
+                .text(function(d) {
+                  return "Validated?: " + d.dbsnp.validated;
+                })
+                .attr("x", margin.left)
+                .attr("y", 110);
+
+    var impact = svgs.append("text")
+                .text(function(d) {
+                    return "Coding Impact: " + d.wellderly.coding_impact;
+                })
+                .attr("x", margin.left)
+                .attr("y", 130);
+
+    var score = svgs.append("text")
+                .text(function(d) {
+                  return "MyVariant Score: " + d._score;
+                })
+                .attr("x", margin.left)
+                .attr("y", 147)
+                .attr("font-size", 15);
+
+    // Bar Graph
+
+    var barHeight = 20;
+
+    var x = d3.scale.linear()
+        .domain([0, 1])
+        .range([0, 200]);
+
+    var bar = svgs.append("g")
+        .attr("transform", function(d, i) { 
+            return "translate("+margin.left+","+160+")"; 
+        });
+
+    bar.append("rect")
+        .attr("width", function(d) {
+            return x(d.wellderly.alleles[0].freq)
+        })
+        .attr("height", barHeight)
+        .attr("x", 20)
+        .attr("y", 0)
+        .style("fill", "#CD6600");
+
+    bar.append("rect")
+        .attr("width", function(d) {
+            return x(d.wellderly.alleles[1].freq)
+        })
+        .attr("height", barHeight)
+        .attr("x", 20)
+        .attr("y", 20)
+        .style("fill", "#0099CC");
+
+    bar.append("text")
+        .attr("x", 0)
+        .attr("y", 10)
+        .attr("dy", ".35em")
+        .text(function(d) { 
+            console.log(d.wellderly.alleles[0].allele);
+            return d.wellderly.alleles[0].allele;
+        })
+        .style("fill", "black")
+        .style("font", "20px sans-serif");
+
+    bar.append("text")
+        .attr("x", 0)
+        .attr("y", 30)
+        .attr("dy", ".35em")
+        .text(function(d) { 
+            console.log(d.wellderly.alleles[1].allele);
+            return d.wellderly.alleles[1].allele;
+        })
+        .style("fill", "black")
+        .style("font", "20px sans-serif");
+
+    bar.append("text")
+        .attr("x", function(d) { 
+            console.log(d.wellderly.alleles[0].freq);
+            return x(d.wellderly.alleles[0].freq) + margin.left; 
+        })
+        .attr("y", 10)
+        .attr("dy", ".35em")
+        .text(function(d, i) { 
+            return d.wellderly.alleles[0].freq.toFixed(2); 
+        })
+        .style("fill", "black")
+        .style("font", "14px sans-serif")
+        .style("text-anchor", "start");
+
+    bar.append("text")
+        .attr("x", function(d) { 
+            console.log(d.wellderly.alleles[1].freq);
+            return x(d.wellderly.alleles[1].freq) + margin.left; 
+        })
+        .attr("y", 30)
+        .attr("dy", ".35em")
+        .text(function(d, i) { 
+            return d.wellderly.alleles[1].freq.toFixed(2); 
+        })
+        .style("fill", "black")
+        .style("font", "14px sans-serif")
+        .style("text-anchor", "start");
+           
+}
+
+MakeSummary(myvar.hits)
+
+// 1. Information I need for dashboard
+// 2. Hierarchy of where to look for information
+// 3. Function to follow that hierarchy and print items to dash
+
+</script>
+<body>
+</body>
+</html>
