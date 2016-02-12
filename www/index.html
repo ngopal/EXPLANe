@@ -250,10 +250,11 @@
                 document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 var responseObject = JSON.parse(r.response);
 
-                responseObject.url = "http://www.google.com,http://nikhilgopal.com";
+                //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
                 if (responseObject.url.length === 0) {
-                   alert("No URLs found in poster");
+                   //alert("No URLs found in poster");
+                    responseObject.url = "No URLs found in poster";
                 }
                 else {
                     // Populate urls tab
@@ -320,6 +321,11 @@
                 )
             }
 
+            var linklookup = {"clinvar": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
+                "dnsbp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
+                "grasp": "NA",
+                "wellderly": "NA"};
+
             function verifyClinicalStatus(item){
                 var rdat = {"variantID": item._id,
                     "resource": "clinvar",
@@ -345,6 +351,7 @@
                     "resource": "genes",
                     "summary": "none"};
                 if(item.hasOwnProperty("clinvar")) {
+                    rdat.resource = "clinvar";
                     if(item.clinvar.hasOwnProperty("gene")) {
                         if(item.clinvar.gene.hasOwnProperty("symbol")) {
                             rdat.summary = "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
@@ -358,6 +365,7 @@
                     }
                 }
                 else if(item.hasOwnProperty("wellderly")) {
+                    rdat.resource = "wellderly";
                     if(item.wellderly.hasOwnProperty("gene")) {
                         rdat.summary = "This variant is associated with the gene(s): "+formatArray(item.wellderly.gene)+" (wellderly)";
                     }
@@ -397,18 +405,23 @@
             function verifyRSID(item){
                 var rdat = {"variantID": item._id,
                     "resource": "rsid",
-                    "summary": "none"};
+                    "summary": "none",
+                    "link": "none"};
                 if(item.hasOwnProperty("clinvar")) {
+                    rdat.resource = "clinvar";
                     if(item.clinvar.hasOwnProperty("rsid")) {
                         rdat.summary = "This variant also has the RSID: "+item.clinvar.rsid+" (clinvar)";
+                        rdat.link =  linklookup["clinvar"]+item.clinvar.rsid;
                     }
                     else {
                         rdat.summary = "No data found on RSID";
                     }
                 }
                 else if(item.hasOwnProperty("dbsnp")) {
+                    rdat.resource = "dbsnp";
                     if(item.dbsnp.hasOwnProperty("rsid")) {
                         rdat.summary = "This variant also has the RSID: "+item.dbsnp.rsid+" (dbsnp)";
+                        rdat.link = linklookup["dbsnp"]+item.dbsnp.rsid;
                     }
                     else {
                         rdat.summary = "No data found on RSID";
@@ -472,7 +485,13 @@
                 var row = $("<tr />");
                 $("#geneticsDataTable").append(row);
                 row.append($("<td>" + rowData.variantID + "</td>"));
-                row.append($("<td>" + rowData.resource + "</td>"));
+                if (rowData.hasOwnProperty("link")) {
+                    //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
+                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
+                }
+                else {
+                    row.append($("<td>" + rowData.resource + "</td>"));
+                }
                 row.append($("<td>" + rowData.summary + "</td>"));
             }
 
