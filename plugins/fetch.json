@@ -31,10 +31,10 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-transport-security": {
+    "cordova-plugin-inappbrowser": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-transport-security"
+            "id": "cordova-plugin-inappbrowser"
         },
         "is_top_level": true,
         "variables": {}
