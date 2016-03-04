@@ -39,3 +39,8 @@ adb push mypic.jpg /sdcard/Pictures
 
 http://stackoverflow.com/questions/2083709/android-emulator-sdcard-push-error-read-only-file-system
 http://stackoverflow.com/questions/5151744/upload-picture-to-emulator-gallery
+
+
+#ImageMagick Command for Splash Screen
+convert icon.png -resize 640x960 -background none -gravity center -extent 640x960 test_icon.png
+

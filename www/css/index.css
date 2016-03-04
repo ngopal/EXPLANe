@@ -202,3 +202,7 @@ h1 {
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     text-transform: none;
 }
+
+#geneticsDataTable {
+    display: none;
+}

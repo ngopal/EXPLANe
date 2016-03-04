@@ -54,6 +54,7 @@
                     </ul><br>
                 </div>
                 <div id="geneticsTab">
+                    <h3 id="welcomeMessage">Process Poster for Genetic Summary</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
                     <table id="geneticsDataTable">
                         <tr>
@@ -481,6 +482,8 @@
 
             document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
 
+            document.getElementById("geneticsDataTable").style.display = "inline";
+            document.getElementById("welcomeMessage").style.display = "none";
             function drawRow(rowData) {
                 var row = $("<tr />");
                 $("#geneticsDataTable").append(row);
