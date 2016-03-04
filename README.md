@@ -41,6 +41,6 @@ http://stackoverflow.com/questions/2083709/android-emulator-sdcard-push-error-re
 http://stackoverflow.com/questions/5151744/upload-picture-to-emulator-gallery
 
 
-#ImageMagick Command for Splash Screen
-convert icon.png -resize 640x960 -background none -gravity center -extent 640x960 test_icon.png
+#ImageMagick Command for Splash Screen (with padding)
+convert icon.png -resize 512x512 -background none -gravity center -extent 640x960 test_icon.png
 
