@@ -20,14 +20,18 @@
 -->
 # Cordova Hooks
 
-Cordova Hooks represent special scripts which could be added by application and plugin developers or even by your own build system  to customize cordova commands. Hook scripts could be defined by adding them to the special predefined folder (`/hooks`) or via configuration files (`config.xml` and `plugin.xml`) and run serially in the following order:
+Cordova Hooks represent special scripts which could be added by application and plugin developers or 
+even by your own build system  to customize cordova commands. Hook scripts could be defined by adding them 
+to the special predefined folder (`/hooks`) or via configuration files (`config.xml` and `plugin.xml`) and 
+run serially in the following order:
 * Application hooks from `/hooks`;
 * Application hooks from `config.xml`;
 * Plugin hooks from `plugins/.../plugin.xml`.
 
 __Remember__: Make your scripts executable.
 
-__Note__: `.cordova/hooks` directory is also supported for backward compatibility, but we don't recommend using it as it is deprecated.
+__Note__: `.cordova/hooks` directory is also supported for backward compatibility, but we don't recommend 
+using it as it is deprecated.
 
 ## Supported hook types
 The following hook types are supported:
