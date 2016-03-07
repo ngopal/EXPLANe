@@ -81,8 +81,8 @@
         <access origin="*" />
         <script type="text/javascript">
             //$.support.cors = true;
-
-
+        window.open = cordova.InAppBrowser.open;
+        
         function serveURLTab() {
             document.getElementById("geneticsTab").style.display = "none";
             document.getElementById("urlsTab").style.display = "inline";
