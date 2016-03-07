@@ -55,6 +55,7 @@
                 </div>
                 <div id="geneticsTab">
                     <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
+                    <a href="#" onclick="window.open('http://www.nikhilgopal.com', '_system');">www.NikhilGopal.com</a>
                     <h2 id="resultsTitle">No variants were found</h2>
                     <table id="geneticsDataTable">
                         <tr>
@@ -82,7 +83,6 @@
         <access origin="*" />
         <script type="text/javascript">
             //$.support.cors = true;
-        window.open = InAppBrowser.open;
 
         function serveURLTab() {
             document.getElementById("geneticsTab").style.display = "none";
