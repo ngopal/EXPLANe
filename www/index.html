@@ -54,7 +54,7 @@
                     </ul><br>
                 </div>
                 <div id="geneticsTab">
-                    <h3 id="welcomeMessage">Process Poster for Genetic Summary</h3>
+                    <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
                     <table id="geneticsDataTable">
                         <tr>
@@ -66,7 +66,8 @@
                 </div>
                 <div id="urlsTab">
                     <div id="urlsTabStartMessage">
-                        This tab could present a number of URLs extracted from a poster!
+                        <h3 id="welcomeMessageURL">Please process a poster for a URL summary</h3>
+                        <h2 id="resultsTitleURL">No variants were found</h2>
                     </div>
                 </div>
                 <div id="yourTab">
@@ -81,8 +82,8 @@
         <access origin="*" />
         <script type="text/javascript">
             //$.support.cors = true;
-        window.open = cordova.InAppBrowser.open;
-        
+        window.open = InAppBrowser.open;
+
         function serveURLTab() {
             document.getElementById("geneticsTab").style.display = "none";
             document.getElementById("urlsTab").style.display = "inline";
@@ -484,6 +485,7 @@
 
             document.getElementById("geneticsDataTable").style.display = "inline";
             document.getElementById("welcomeMessage").style.display = "none";
+            document.getElementById("welcomeMessageURL").style.display = "none";
             function drawRow(rowData) {
                 var row = $("<tr />");
                 $("#geneticsDataTable").append(row);
