@@ -324,8 +324,12 @@
 
             var linklookup = {"clinvar": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
                 "dbsnp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
-                "grasp": "NA",
-                "wellderly": "NA"};
+                "grasp": "http://grasp.nhlbi.nih.gov/Search.aspx", // REQUIRES CROSS-SITE SCRIPTING
+                "wellderly": "NA",
+                "evs":"http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=rsID&target=",
+                "exac":"http://exac.broadinstitute.org/awesome?query=",
+                "mutdb" :"" // REQUIRES CROSS-SITE SCRIPTING (SEANS PAGE)
+            };
 
             function verifyClinicalStatus(item){
                 var rdat = {"variantID": item._id,
