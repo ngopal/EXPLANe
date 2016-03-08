@@ -55,7 +55,6 @@
                 </div>
                 <div id="geneticsTab">
                     <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
-                    <a href="#" onclick="window.open('http://www.nikhilgopal.com', '_system');">www.NikhilGopal.com</a>
                     <h2 id="resultsTitle">No variants were found</h2>
                     <table id="geneticsDataTable">
                         <tr>
@@ -324,7 +323,7 @@
             }
 
             var linklookup = {"clinvar": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
-                "dnsbp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
+                "dbsnp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
                 "grasp": "NA",
                 "wellderly": "NA"};
 
@@ -493,6 +492,7 @@
                 if (rowData.hasOwnProperty("link")) {
                     //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
                     row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
+                    alert("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>");
                 }
                 else {
                     row.append($("<td>" + rowData.resource + "</td>"));
