@@ -250,6 +250,7 @@
                 //updateUserOnRequestReceived();
                 document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 var responseObject = JSON.parse(r.response);
+                responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
 
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
@@ -331,6 +332,141 @@
                 "mutdb" :"" // REQUIRES CROSS-SITE SCRIPTING (SEANS PAGE)
             };
 
+            function linklookupGene(source, gene_name) {
+                if (source==="clinvar") {
+                  return "http://www.ncbi.nlm.nih.gov/clinvar/?term="+gene_name+"%5Bgene%5D";
+                }
+                else {
+                  return undefined;
+              }
+            };
+
+
+            ///// START NEW FUNCTIONS //////
+
+            function processItemsForHit(item) {
+                var hash = {};
+                var keychain = Object.keys(item);
+                for (var n in keychain) {
+                    if (keychain[n].indexOf("_") !== 0) {
+                        var subkeychain = Object.keys(item[keychain[n]]);
+                        subkeychain.forEach(function(s) {
+                            if(hash[s]) {
+                                hash[s].push(keychain[n]);
+                            }
+                            else {
+                                hash[s] = [keychain[n]];
+                            }
+                        });
+                    }
+                }
+                return hash;
+            }
+
+            function drawRow(rowData) {
+                var row = $("<tr />");
+                $("#geneticsDataTable").append(row);
+                row.append($("<td>" + rowData.variantID + "</td>"));
+                if (rowData.hasOwnProperty("link")) {
+                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.type + "</a></td>"));
+                }
+                else {
+                    row.append($("<td>" + rowData.type + "</td>"));
+                }
+                row.append($("<td>" + rowData.summary + "<hr></td>"));
+            }
+
+            function getRSIDSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).rsid;
+                var dat = [];
+                for (var i in sources) {
+                    dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].rsid});
+                }
+                return dat;
+            }
+
+            function getGeneSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).gene;
+                var dat = [];
+                for (var i in sources) {
+                    var t = typeof(struct[hitnum][sources[i]].gene);
+                    if (t === "object") {
+                        if (struct[hitnum][sources[i]].gene.hasOwnProperty("symbol")) {
+                            dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].gene.symbol});
+                        }
+                        else {
+                            dat.push({"resource":sources[i], "data": "More than one gene"});
+                        }
+                    }
+                    else if (t === "string") {
+                        dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].gene});
+                    }
+                    else {
+                        dat.push({"resource":sources[i], "data":"No data"});
+                    }
+                }
+                return dat;
+            }
+
+
+            function getPubSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).publication;
+                var dat = [];
+                for (var i in sources) {
+                    dat.push({"resource":sources[i], "data": struct[hitnum][sources[i]].publication});
+                }
+                return dat;
+            }
+
+            function makeClicky(datarr) {
+                var clickyarr = [];
+                clickyarr.push("<TABLE>");
+                for (var i in datarr) {
+                    clickyarr.push("<TR>");
+                    if(Array.isArray(datarr[i].data)) {
+                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+makeListHTMLPresentation(datarr[i].data)+"</TD>");
+                    }
+                    else {
+                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+datarr[i].data+"</TD>");
+                    }
+                    clickyarr.push("</TR>");
+                }
+                clickyarr.push("</TABLE>");
+                var repl = clickyarr.join('');
+                return repl;
+            }
+
+            function makeListHTMLPresentation(pubList) {
+                return "<UL>"+pubList.map(function(m){
+                            return m.phenotype;
+                        }).map(function(m) {
+                            return "<LI>"+m+"</LI>";
+                        }).join("")+"</UL>";
+            }
+
+            function renderSummaries(hitnum, struct) {
+                var testObj = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "RSID",
+                    "summary" : makeClicky(getRSIDSum(hitnum, struct))};
+
+                var testObj2 = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "Gene",
+                    "summary" : makeClicky(getGeneSum(hitnum, struct))};
+
+                var testObj3 = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "Pub",
+                    "summary" : makeClicky(getPubSum(hitnum, struct))};
+
+                drawRow(testObj);
+                drawRow(testObj2);
+                drawRow(testObj3);
+
+
+            }
+
+            ////  END NEW FUNCTIONS   ///////
+
+
             function verifyClinicalStatus(item){
                 var rdat = {"variantID": item._id,
                     "resource": "clinvar",
@@ -354,12 +490,14 @@
                 // wellderly.gene
                 var rdat = {"variantID": item._id,
                     "resource": "genes",
+                    "link": "none",
                     "summary": "none"};
                 if(item.hasOwnProperty("clinvar")) {
                     rdat.resource = "clinvar";
                     if(item.clinvar.hasOwnProperty("gene")) {
                         if(item.clinvar.gene.hasOwnProperty("symbol")) {
                             rdat.summary = "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
+                            rdat.link = linklookupGene("clinvar", item.clinvar.gene.symbol);
                         }
                         else {
                             rdat.summary = "No data found on gene";
@@ -489,20 +627,20 @@
             document.getElementById("geneticsDataTable").style.display = "inline";
             document.getElementById("welcomeMessage").style.display = "none";
             document.getElementById("welcomeMessageURL").style.display = "none";
-            function drawRow(rowData) {
-                var row = $("<tr />");
-                $("#geneticsDataTable").append(row);
-                row.append($("<td>" + rowData.variantID + "</td>"));
-                if (rowData.hasOwnProperty("link")) {
-                    //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
-                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
-                    alert("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>");
-                }
-                else {
-                    row.append($("<td>" + rowData.resource + "</td>"));
-                }
-                row.append($("<td>" + rowData.summary + "</td>"));
-            }
+//            function drawRow(rowData) {
+//                var row = $("<tr />");
+//                $("#geneticsDataTable").append(row);
+//                row.append($("<td>" + rowData.variantID + "</td>"));
+//                if (rowData.hasOwnProperty("link")) {
+//                    //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
+//                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
+//                    //alert("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>");
+//                }
+//                else {
+//                    row.append($("<td>" + rowData.resource + "</td>"));
+//                }
+//                row.append($("<td>" + rowData.summary + "<hr></td>"));
+//            }
 
 
 /*            function resetSummary() {
@@ -520,7 +658,10 @@
                 }
             }
 
-            drawTable(myVariantHitsArray);
+            //drawTable(myVariantHitsArray);
+            for (var k in myVariantHitsArray.hits) {
+                renderSummaries(k, myVariantHitsArray.hits);
+            }
 
 
             document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
