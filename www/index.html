@@ -67,7 +67,7 @@
                 <div id="urlsTab">
                     <div id="urlsTabStartMessage">
                         <h3 id="welcomeMessageURL">Please process a poster for a URL summary</h3>
-                        <h2 id="resultsTitleURL">No variants were found</h2>
+                        <h2 id="resultsTitleURL">No URLs were found</h2>
                     </div>
                 </div>
                 <div id="yourTab">
@@ -79,6 +79,7 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/node_modules/d3/d3.min.js"></script>
         <script type="text/javascript" src="js/node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="js/node_modules/underscore/underscore-min.js"></script>
         <access origin="*" />
         <script type="text/javascript">
             //$.support.cors = true;
@@ -424,7 +425,7 @@
                 for (var i in datarr) {
                     clickyarr.push("<TR>");
                     if(Array.isArray(datarr[i].data)) {
-                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+makeListHTMLPresentation(datarr[i].data)+"</TD>");
+                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+makeListHTMLPresentation(_.uniq(datarr[i].data))+"</TD>");
                     }
                     else {
                         clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+datarr[i].data+"</TD>");
