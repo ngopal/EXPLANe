@@ -56,13 +56,18 @@
                 <div id="geneticsTab">
                     <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
-                    <table id="geneticsDataTable">
-                        <tr>
-                            <th>Variant</th>
-                            <th>Resource</th>
-                            <th>Summary</th>
-                        </tr>
-                    </table>
+                    <!--<table id="geneticsDataTable">-->
+                        <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th id="tableColumnVariant">Variant</th>-->
+                                <!--<th id="tableColumnType">Type</th>-->
+                                <!--<th id="tableColumnData">Links/Data</th>-->
+                            <!--</tr>-->
+                        <!--</thead>-->
+                    <!--</table>-->
+                    <div id="geneticsResults">
+
+                    </div>
                 </div>
                 <div id="urlsTab">
                     <div id="urlsTabStartMessage">
@@ -364,16 +369,24 @@
                 return hash;
             }
 
+            function makeValidSelector(ss) {
+                return ss.replace(":","_").replace(".","_").replace(">","_");
+            }
+
+            function drawHeader(rowData) {
+                var validSelector = makeValidSelector("table_"+rowData.variantID);
+                console.log(validSelector);
+                $("#geneticsResults")
+                        .append("<h2>"+rowData.variantID+"</h2>")
+                        .append("<table id=\""+validSelector+"\">")
+                        .append("</table>");
+            }
+
             function drawRow(rowData) {
+                var validSelector = makeValidSelector("#table_"+rowData.variantID);
                 var row = $("<tr />");
-                $("#geneticsDataTable").append(row);
-                row.append($("<td>" + rowData.variantID + "</td>"));
-                if (rowData.hasOwnProperty("link")) {
-                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.type + "</a></td>"));
-                }
-                else {
-                    row.append($("<td>" + rowData.type + "</td>"));
-                }
+                $(validSelector).append(row);
+                row.append($("<td>" + rowData.type + "</td>"));
                 row.append($("<td>" + rowData.summary + "<hr></td>"));
             }
 
@@ -458,6 +471,7 @@
                     "type" : "Pub",
                     "summary" : makeClicky(getPubSum(hitnum, struct))};
 
+                drawHeader(testObj);
                 drawRow(testObj);
                 drawRow(testObj2);
                 drawRow(testObj3);
@@ -625,7 +639,7 @@
 
             document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
 
-            document.getElementById("geneticsDataTable").style.display = "inline";
+//            document.getElementById("geneticsDataTable").style.display = "inline";
             document.getElementById("welcomeMessage").style.display = "none";
             document.getElementById("welcomeMessageURL").style.display = "none";
 //            function drawRow(rowData) {
