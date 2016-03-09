@@ -54,7 +54,7 @@
                     </ul><br>
                 </div>
                 <div id="geneticsTab">
-                    <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
+                    <h3 id="welcomeMessage">Please process a poster for a genetic summary. Results will appear below.</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
                     <div id="geneticsResults">
 
@@ -247,7 +247,7 @@
                 //updateUserOnRequestReceived();
                 document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 var responseObject = JSON.parse(r.response);
-                responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
+                //responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
 
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
@@ -435,14 +435,27 @@
                     }
                     else {
                         if(datarr.length > 1) {
-                            clickyarr.push(
-                                    "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
-                                    datarr[i].resource+
-                                    "<\a></TD><TD class=\"info\">"+
-                                    datarr[i].data+"</TD></TR>"
-                            );
+                            // Print Type of data
+                            if (i === "0") {
+                                clickyarr.push(
+                                        "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
+                                        datarr[i].resource+
+                                        "<\a></TD><TD class=\"info\">"+
+                                        datarr[i].data+"</TD></TR>"
+                                );
+                            }
+                            else {
+                                // Print rest of data without explicitly stating type
+                                clickyarr.push(
+                                        "<TR><td>"+""+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
+                                        datarr[i].resource+
+                                        "<\a></TD><TD class=\"info\">"+
+                                        datarr[i].data+"</TD></TR>"
+                                );
+                            }
                         }
                         else {
+                            // This prints singletons
                             clickyarr.push("<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+datarr[i].resource+"<\a></TD><TD class=\"info\">"+datarr[i].data+"</TD>");
                         }
                     }
@@ -450,6 +463,7 @@
                 var repl = clickyarr.join('');
                 return repl;
             }
+
 
             function makeListHTMLPresentation(pubList) {
                 return "<UL>"+pubList.map(function(m){
