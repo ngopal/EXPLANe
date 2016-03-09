@@ -366,19 +366,18 @@
 
             function drawHeader(rowData) {
                 var validSelector = makeValidSelector("table_"+rowData.variantID);
+                console.log(validSelector);
                 $("#geneticsResults")
-                        .append("<h2>"+rowData.variantID+"</h2>")
+                        .append("<hr><h2>"+rowData.variantID+"</h2>")
                         .append("<table id=\""+validSelector+"\">")
-                        .append("</table><hr>");
+                        .append("</table>");
             }
 
             function drawRow(rowData) {
                 var validSelector = makeValidSelector("#table_"+rowData.variantID);
-                var row = $("<tr />");
-                $(validSelector).append(row);
-                row.append($("<td>" + rowData.type + "</td>"));
-                row.append($("<td>" + rowData.summary + "</td>"));
+                $(validSelector).append($(rowData.summary));
             }
+
 
             function getRSIDSum(hitnum, struct) {
                 var sources = processItemsForHit(struct[hitnum]).rsid;
@@ -422,20 +421,32 @@
                 return dat;
             }
 
-            function makeClicky(datarr) {
+            function makeClicky(t,datarr) {
                 var clickyarr = [];
-                clickyarr.push("<TABLE>");
                 for (var i in datarr) {
-                    clickyarr.push("<TR>");
                     if(Array.isArray(datarr[i].data)) {
-                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+makeListHTMLPresentation(_.uniq(datarr[i].data))+"</TD>");
+                        clickyarr.push(
+                                "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
+                                datarr[i].resource+
+                                "<\a></TD><TD class=\"infolist\">"+
+                                makeListHTMLPresentation(datarr[i].data)+
+                                "</TD></TR>"
+                        );
                     }
                     else {
-                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD class=\"tabpad\">"+datarr[i].data+"</TD>");
+                        if(datarr.length > 1) {
+                            clickyarr.push(
+                                    "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
+                                    datarr[i].resource+
+                                    "<\a></TD><TD class=\"info\">"+
+                                    datarr[i].data+"</TD></TR>"
+                            );
+                        }
+                        else {
+                            clickyarr.push("<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+datarr[i].resource+"<\a></TD><TD class=\"info\">"+datarr[i].data+"</TD>");
+                        }
                     }
-                    clickyarr.push("</TR>");
                 }
-                clickyarr.push("</TABLE>");
                 var repl = clickyarr.join('');
                 return repl;
             }
@@ -450,16 +461,16 @@
 
             function renderSummaries(hitnum, struct) {
                 var testObj = {"variantID" : struct[hitnum]["_id"],
-                    "type" : "RSID(s)",
-                    "summary" : makeClicky(getRSIDSum(hitnum, struct))};
+                    "type" : "RSID",
+                    "summary" : makeClicky("RSID", getRSIDSum(hitnum, struct))};
 
                 var testObj2 = {"variantID" : struct[hitnum]["_id"],
                     "type" : "Gene(s)",
-                    "summary" : makeClicky(getGeneSum(hitnum, struct))};
+                    "summary" : makeClicky("Gene", getGeneSum(hitnum, struct))};
 
                 var testObj3 = {"variantID" : struct[hitnum]["_id"],
                     "type" : "Associated Phenotypes",
-                    "summary" : makeClicky(getPubSum(hitnum, struct))};
+                    "summary" : makeClicky("Associated Phenotypes", getPubSum(hitnum, struct))};
 
                 drawHeader(testObj);
                 drawRow(testObj);

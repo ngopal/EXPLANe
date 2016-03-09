@@ -217,10 +217,21 @@ table {
     text-align: left;
 }
 
-.tabpad {
-    padding-left: 15px;
+.link {
+    padding-left: 0px;
+    text-align: left;
 }
 
-.leftaligntd {
-    text-align: left;
+.info {
+    vertical-align: top;
+}
+
+.infolist {
+    vertical-align: top;
+    padding-left: 0px;
+}
+
+ul {
+    list-style:none;
+    padding-left:0;
 }
