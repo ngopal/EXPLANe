@@ -56,15 +56,6 @@
                 <div id="geneticsTab">
                     <h3 id="welcomeMessage">Please process a poster for a genetic summary</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
-                    <!--<table id="geneticsDataTable">-->
-                        <!--<thead>-->
-                            <!--<tr>-->
-                                <!--<th id="tableColumnVariant">Variant</th>-->
-                                <!--<th id="tableColumnType">Type</th>-->
-                                <!--<th id="tableColumnData">Links/Data</th>-->
-                            <!--</tr>-->
-                        <!--</thead>-->
-                    <!--</table>-->
                     <div id="geneticsResults">
 
                     </div>
@@ -375,11 +366,10 @@
 
             function drawHeader(rowData) {
                 var validSelector = makeValidSelector("table_"+rowData.variantID);
-                console.log(validSelector);
                 $("#geneticsResults")
                         .append("<h2>"+rowData.variantID+"</h2>")
                         .append("<table id=\""+validSelector+"\">")
-                        .append("</table>");
+                        .append("</table><hr>");
             }
 
             function drawRow(rowData) {
@@ -387,7 +377,7 @@
                 var row = $("<tr />");
                 $(validSelector).append(row);
                 row.append($("<td>" + rowData.type + "</td>"));
-                row.append($("<td>" + rowData.summary + "<hr></td>"));
+                row.append($("<td>" + rowData.summary + "</td>"));
             }
 
             function getRSIDSum(hitnum, struct) {
@@ -441,7 +431,7 @@
                         clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+makeListHTMLPresentation(_.uniq(datarr[i].data))+"</TD>");
                     }
                     else {
-                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD>"+datarr[i].data+"</TD>");
+                        clickyarr.push("<TD><a href='"+datarr[i].resource+"'>"+datarr[i].resource+"<\a></TD><TD class=\"tabpad\">"+datarr[i].data+"</TD>");
                     }
                     clickyarr.push("</TR>");
                 }
@@ -460,15 +450,15 @@
 
             function renderSummaries(hitnum, struct) {
                 var testObj = {"variantID" : struct[hitnum]["_id"],
-                    "type" : "RSID",
+                    "type" : "RSID(s)",
                     "summary" : makeClicky(getRSIDSum(hitnum, struct))};
 
                 var testObj2 = {"variantID" : struct[hitnum]["_id"],
-                    "type" : "Gene",
+                    "type" : "Gene(s)",
                     "summary" : makeClicky(getGeneSum(hitnum, struct))};
 
                 var testObj3 = {"variantID" : struct[hitnum]["_id"],
-                    "type" : "Pub",
+                    "type" : "Associated Phenotypes",
                     "summary" : makeClicky(getPubSum(hitnum, struct))};
 
                 drawHeader(testObj);

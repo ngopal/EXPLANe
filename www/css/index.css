@@ -206,3 +206,21 @@ h1 {
 #geneticsDataTable {
     display: none;
 }
+
+li {
+    margin: 0; padding: 0;
+    list-style-type: none;
+    text-align: left;
+}
+
+table {
+    text-align: left;
+}
+
+.tabpad {
+    padding-left: 15px;
+}
+
+.leftaligntd {
+    text-align: left;
+}
