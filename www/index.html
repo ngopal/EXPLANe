@@ -368,9 +368,10 @@
                 var validSelector = makeValidSelector("table_"+rowData.variantID);
                 console.log(validSelector);
                 $("#geneticsResults")
-                        .append("<hr><h2>"+rowData.variantID+"</h2>")
+                        .append("<h2>"+rowData.variantID+"</h2>")
                         .append("<table id=\""+validSelector+"\">")
-                        .append("</table>");
+                        .append("</table>")
+                        .append("<hr>");
             }
 
             function drawRow(rowData) {
