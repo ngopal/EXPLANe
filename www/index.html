@@ -38,9 +38,19 @@
                 <br>
             </div>
             <div id="uploadarea">
-                <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library for Processing" />
+                <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library and Process" name="uploadFromLibrary" />
+                <!--<input class="myVarButton" id="startCamera"-->
+                       <!--type="button" value="Select Poster from Library for Processing"-->
+                       <!--name="uploadFromLibrary"-->
+                       <!--onclick="startCamera()"-->
+                <!--/>-->
                 <br>
-                <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" />
+                <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" name="takePicAndUpload" />
+                <!--<input class="myVarButton" id="takePicture"-->
+                       <!--type="button" value="Select Poster from Library for Processing"-->
+                       <!--name="uploadFromLibrary"-->
+                       <!--onclick="takePicture()"-->
+                <!--/>-->
                 <br>
                 <!-- <img id="canvas" /> -->
             </div>
@@ -128,6 +138,8 @@
         function init() {
             document.querySelector("#startCamera")
                     .addEventListener("touchend", startCamera, false);
+            document.querySelector("#takePicture")
+                    .addEventListener("touchend", takePicture, false);
         }
 
         document.addEventListener("deviceready", init, false);
@@ -136,7 +148,7 @@
 
         function onSuccess(u) {
             // imageUpload(u);
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading"
+            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading";
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = u.substr(u.lastIndexOf('/') + 1);
@@ -169,10 +181,10 @@
         }
 
         function startCamera() {
-
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+//               sourceType: Camera.PictureSourceType.CAMERA,
                popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
              });
 
@@ -191,10 +203,11 @@
         function takePicture() {
 
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
-             { destinationType: Camera.DestinationType.FILE_URI,
-               sourceType: Camera.PictureSourceType.CAMERA,
-               //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
-             });
+                { destinationType: Camera.DestinationType.FILE_URI,
+//               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+                });
 
         }
 
@@ -247,7 +260,7 @@
                 //updateUserOnRequestReceived();
                 document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 var responseObject = JSON.parse(r.response);
-                //responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
+                responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
 
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
@@ -465,13 +478,12 @@
                 return repl;
             }
 
-
             function makeListHTMLPresentation(pubList) {
-                return "<UL>"+pubList.map(function(m){
+                return "<OL type=\"A\">"+_.uniq(pubList.map(function(m){
                             return m.phenotype;
-                        }).map(function(m) {
+                        })).map(function(m) {
                             return "<LI>"+m+"</LI>";
-                        }).join("")+"</UL>";
+                        }).join("")+"</OL>";
             }
 
             function renderSummaries(hitnum, struct) {
@@ -658,6 +670,7 @@
 //            document.getElementById("geneticsDataTable").style.display = "inline";
             document.getElementById("welcomeMessage").style.display = "none";
             document.getElementById("welcomeMessageURL").style.display = "none";
+            document.getElementById("resultsTitleURL").style.display = "inline";
 //            function drawRow(rowData) {
 //                var row = $("<tr />");
 //                $("#geneticsDataTable").append(row);

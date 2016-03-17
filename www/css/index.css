@@ -54,7 +54,7 @@ body {
     top:10%;  /* was 50% */
     /*height:50px;                   /* text area height */
     /*width:225px;                   /* text area width */
-    width:90%;                   /* text area width */
+    width:100%;                   /* text area width */
     text-align:center;
     float:left;
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
@@ -140,12 +140,13 @@ h1 {
     color: #FFFFFF;
     font-size: 16px;
     background: #4B946A;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 10px 10px 10px;
     text-decoration: none;
     float: left;
     display: block;
     width: 100%;
     margin-bottom: 30px;
+    white-space: normal;
 }
 
 .tabrow {
@@ -194,7 +195,9 @@ h1 {
 
 #uploadarea {
     text-align:center;
-    margin:auto;
+    /*margin:auto;*/
+    margin-right: 5%;
+    margin-left: 5%;
 }
 
 .appTitle {
@@ -205,12 +208,6 @@ h1 {
 
 #geneticsDataTable {
     display: none;
-}
-
-li {
-    margin: 0; padding: 0;
-    list-style-type: none;
-    text-align: left;
 }
 
 table {
@@ -234,4 +231,9 @@ table {
 ul {
     list-style:none;
     padding-left:0;
+}
+
+ol {
+    padding-left:0;
+    text-align: left;
 }
