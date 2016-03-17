@@ -54,7 +54,8 @@ body {
     top:10%;  /* was 50% */
     /*height:50px;                   /* text area height */
     /*width:225px;                   /* text area width */
-    width:100%;                   /* text area width */
+    width:90%;                   /* text area width */
+    /*width should be 90 for iphone6 and 100 for iphone5 */
     text-align:center;
     float:left;
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */

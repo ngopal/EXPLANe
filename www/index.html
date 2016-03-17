@@ -90,6 +90,7 @@
         <script type="text/javascript">
             //$.support.cors = true;
 
+
         function serveURLTab() {
             document.getElementById("geneticsTab").style.display = "none";
             document.getElementById("urlsTab").style.display = "inline";
@@ -143,6 +144,21 @@
         }
 
         document.addEventListener("deviceready", init, false);
+        document.addEventListener("deviceready", function() {
+            if (device.model === "x86_64") {
+               console.log("Using emulator");
+            }
+            else {
+                var model = device.model;
+                var modelversion = +model.substr(6,7).split(',')[0];
+                if (modelversion <= 6) {
+                    document.getElementsByClassName("app")[0].style.width="100%";
+                }
+                else {
+                    document.getElementsByClassName("app")[0].style.width="90%";
+                }
+            }
+        }, false);
         var myVariantUrl = "http://myvariant.info/v1/query?q=";
         var cameraPopoverHandle;
 
