@@ -38,19 +38,17 @@
                 <br>
             </div>
             <div id="uploadarea">
-                <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library and Process" name="uploadFromLibrary" />
-                <!--<input class="myVarButton" id="startCamera"-->
-                       <!--type="button" value="Select Poster from Library for Processing"-->
+                <input class="myVarButton" id="startCamera" type="button" value="Select Poster from Library and Process" onclick="choiceCamera('library')" />
+                <!--<input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library and Process" name="uploadFromLibrary" />-->
+                <!--<button class="myVarButton" id="startCamera"-->
                        <!--name="uploadFromLibrary"-->
-                       <!--onclick="startCamera()"-->
-                <!--/>-->
+                       <!--onclick="choiceCamera('library')">Select Poster from Library for Processing</button>-->
                 <br>
-                <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" name="takePicAndUpload" />
-                <!--<input class="myVarButton" id="takePicture"-->
-                       <!--type="button" value="Select Poster from Library for Processing"-->
+                <input class="myVarButton" id="takePicture" type="button" value="Take Photo of Poster and Process" onclick="choiceCamera('camera') />
+                <!--<input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" name="takePicAndUpload" />-->
+                <!--<button class="myVarButton" id="takePicture"-->
                        <!--name="uploadFromLibrary"-->
-                       <!--onclick="takePicture()"-->
-                <!--/>-->
+                       <!--onclick="choiceCamera('camera')">Take Photo of Poster and Process</button>-->
                 <br>
                 <!-- <img id="canvas" /> -->
             </div>
@@ -161,6 +159,7 @@
         }, false);
         var myVariantUrl = "http://myvariant.info/v1/query?q=";
         var cameraPopoverHandle;
+        var cameraPopoverHandle2;
 
         function onSuccess(u) {
             // imageUpload(u);
@@ -196,6 +195,30 @@
             console.log(e);
         }
 
+
+        function choiceCamera(choice) {
+            if (choice === "camera") {
+                var source = Camera.PictureSourceType.CAMERA;
+                alert("Camera choice");
+                console.log("Camera choice");
+            }
+            else if (choice === "library"){
+                var source = Camera.PictureSourceType.PHOTOLIBRARY;
+                alert("Library choice");
+                console.log("Library choice");
+            }
+            else {
+                var source = Camera.PictureSourceType.PHOTOLIBRARY;
+                alert("ELSE choice");
+                console.log("ELSE choice");
+            }
+            navigator.camera.getPicture(onSuccess, onFail,
+                    { destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: source,
+                        //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+                    });
+        }
+
         function startCamera() {
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
@@ -218,7 +241,7 @@
 
         function takePicture() {
 
-            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
+            cameraPopoverHandle2 = navigator.camera.getPicture(onSuccess, onFail,
                 { destinationType: Camera.DestinationType.FILE_URI,
 //               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
                     sourceType: Camera.PictureSourceType.CAMERA,
@@ -232,6 +255,7 @@
             console.log('running onorientationchange');
             var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
             cameraPopoverHandle.setPosition(cameraPopoverOptions);
+            cameraPopoverHandle2.setPosition(cameraPopoverOptions);
          }
             
 
