@@ -150,6 +150,15 @@ h1 {
     white-space: normal;
 }
 
+button {
+    font-size: 16px;
+    color: #FFFFFF;
+    background: #4B946A;
+    display: block;
+    width: 100%;
+    white-space: normal;
+}
+
 .tabrow {
     text-align: center;
     list-style: none;

@@ -38,13 +38,17 @@
                 <br>
             </div>
             <div id="uploadarea">
-                <input class="myVarButton" id="startCamera" type="button" value="Select Poster from Library and Process" onclick="choiceCamera('library')" />
+                <button id="startCamera">Select Poster from Library and Process</button>
+                <!--<button id="startCamera" onclick="startCameraFunction()">Select Poster from Library and Process</button>-->
+                <!--<input class="myVarButton" id="startCamera" type="button" value="Select Poster from Library and Process" onclick="choiceCamera('camera')" />-->
                 <!--<input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library and Process" name="uploadFromLibrary" />-->
                 <!--<button class="myVarButton" id="startCamera"-->
                        <!--name="uploadFromLibrary"-->
                        <!--onclick="choiceCamera('library')">Select Poster from Library for Processing</button>-->
                 <br>
-                <input class="myVarButton" id="takePicture" type="button" value="Take Photo of Poster and Process" onclick="choiceCamera('camera') />
+                <button id="takePicture">Take Photo of Poster and Process</button>
+                <!--<button id="takePicture" onclick="takePictureFunction()">Take Photo of Poster and Process</button>-->
+                <!--<input class="myVarButton" id="takePicture" type="button" value="Take Photo of Poster and Process" onclick="choiceCamera('somethingelse')" />-->
                 <!--<input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" name="takePicAndUpload" />-->
                 <!--<button class="myVarButton" id="takePicture"-->
                        <!--name="uploadFromLibrary"-->
@@ -133,15 +137,28 @@
         app.initialize();
         initializeTabs();
 
+        $('#startCamera').on('click touchend', function() {
+            return startCameraFunction();
+        });
+        $('#takePicture').on('click touchend', function() {
+            return takePictureFunction();
+        });
 
-        function init() {
-            document.querySelector("#startCamera")
-                    .addEventListener("touchend", startCamera, false);
-            document.querySelector("#takePicture")
-                    .addEventListener("touchend", takePicture, false);
-        }
 
-        document.addEventListener("deviceready", init, false);
+//        function init() {
+//            document.querySelector("#startCamera")
+//                    .addEventListener("touchend", startCameraFunction, false);
+//            document.querySelector("#takePicture")
+//                    .addEventListener("touchend", takePictureFunction, false);
+//            $('#startCamera').on('click touchend', function() {
+//                return startCameraFunction();
+//            });
+//            $('#takePicture').on('click touchend', function() {
+//                return takePictureFunction();
+//            });
+//        }
+//
+//        document.addEventListener("deviceready", init, false);
         document.addEventListener("deviceready", function() {
             if (device.model === "x86_64") {
                console.log("Using emulator");
@@ -219,7 +236,7 @@
                     });
         }
 
-        function startCamera() {
+        function startCameraFunction() {
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
@@ -239,7 +256,7 @@
             //document.querySelector(".event.received").write("Analysis Complete")
         }
 
-        function takePicture() {
+        function takePictureFunction() {
 
             cameraPopoverHandle2 = navigator.camera.getPicture(onSuccess, onFail,
                 { destinationType: Camera.DestinationType.FILE_URI,
