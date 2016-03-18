@@ -256,3 +256,9 @@ ol {
     padding-left:0;
     text-align: left;
 }
+
+p {
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: left;
+}
