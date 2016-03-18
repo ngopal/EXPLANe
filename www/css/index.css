@@ -159,6 +159,15 @@ button {
     white-space: normal;
 }
 
+button:active {
+    font-size: 16px;
+    color: #2F2F2F;
+    background: #0ABF8D;
+    display: block;
+    width: 100%;
+    white-space: normal;
+}
+
 .tabrow {
     text-align: center;
     list-style: none;
