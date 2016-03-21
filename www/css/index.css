@@ -94,20 +94,19 @@ h1 {
 }
 
 .event.listening {
-    background-color:#333333;
+    /*background-color:#333333;*/
     display:block;
 }
 
 .event.received {
-    background-color:#4B946A;
+    /*background-color:#4B946A;*/
     display:none;
 }
 
-#statusTable {
+.statusTable {
     margin-left: 10%;
     margin-right: 10%;
     text-align: left;
-    display: inline;
 }
 
 .stepOne {

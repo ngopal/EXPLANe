@@ -33,11 +33,11 @@
         <div class="app">
             <div class="appTitle">EXPLANe</div>
             <div id="deviceready" class="blink">
-                <p class="event listening">Status: Preparing Device</p>
-                <p class="event received">Status: Ready</p>
-                <br>
+                <p class="event listening"></p>
+                <p class="event received"></p>
+                <!--<br>-->
             </div>
-            <div id="statusTable">
+            <div class="statusTable">
                 <table>
                     <tr>
                         <td class="stepOne">1. Preparing Device</td>
@@ -48,10 +48,11 @@
                         <td class="stepFive">5. Summarizing</td>
                     </tr>
                     <tr>
-                        <td class="stepThree">3. Uploading</td>
+                        <td class="stepThree">3. Uploading...</td>
                         <td class="stepSix">6. Query Complete</td>
                     </tr>
                 </table>
+                <br>
             </div>
             <div id="uploadarea">
                 <button id="startCamera">Select Poster from Library and Process</button>
@@ -97,6 +98,7 @@
                 <div id="yourTab">
                     <p>EXPLANe is an acronym for "Extensible Framework for Poster Annotation". The purpose of this app is to allow users to take a photo of an academic poster containing an RSID, and supply the user with additional information that may not otherwise be readily available.</p>
                     <p>EXPLANe is open source: the source code is available on Github and users may contribute their own tabs (or even create their own independent version of EXPLANe).</p>
+                    <b>Notes on OCR Service:</b>
                     <p>The OCR server is setup to have a 5 minute connection timeout. Although this is more than enough time to process poster pictures, a weak or intermittent connection will impede functionality.</p>
                 </div>
             </div>
@@ -204,7 +206,7 @@
 
         function onSuccess(u) {
             // imageUpload(u);
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading";
+//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading";
             document.getElementsByClassName("stepThree")[0].style.color = "black";
             var options = new FileUploadOptions();
             options.fileKey = "file";
@@ -340,7 +342,7 @@
                 //document.querySelector("#variantItems p").write("RESPONDED");
                 //alert(r.response);
                 //updateUserOnRequestReceived();
-                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
+//                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
                 document.getElementsByClassName("stepFour")[0].style.color = "black";
                 var responseObject = JSON.parse(r.response);
                 responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
@@ -748,7 +750,7 @@
             }
 
 
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
+//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
             document.getElementsByClassName("stepFive")[0].style.color = "black";
 
 //            document.getElementById("geneticsDataTable").style.display = "inline";
@@ -792,7 +794,7 @@
             }
 
 
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
+//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
             document.getElementsByClassName("stepSix")[0].style.color = "black";
 
         }
