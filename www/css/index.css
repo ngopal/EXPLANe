@@ -103,6 +103,43 @@ h1 {
     display:none;
 }
 
+#statusTable {
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: left;
+    display: inline;
+}
+
+.stepOne {
+    color:lightgrey;
+    /*display:none;*/
+}
+
+.stepTwo {
+    color:lightgrey;
+    /*display:none;*/
+}
+
+.stepThree {
+    color:lightgrey;
+    /*display:none;*/
+}
+
+.stepFour {
+    color:lightgrey;
+    /*display:none;*/
+}
+
+.stepFive {
+    color:lightgrey;
+    /*display:none;*/
+}
+
+.stepSix {
+    color:lightgrey;
+    /*display:none;*/
+}
+
 @keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
