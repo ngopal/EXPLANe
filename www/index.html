@@ -56,20 +56,8 @@
             </div>
             <div id="uploadarea">
                 <button id="startCamera">Select Poster from Library and Process</button>
-                <!--<button id="startCamera" onclick="startCameraFunction()">Select Poster from Library and Process</button>-->
-                <!--<input class="myVarButton" id="startCamera" type="button" value="Select Poster from Library and Process" onclick="choiceCamera('camera')" />-->
-                <!--<input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library and Process" name="uploadFromLibrary" />-->
-                <!--<button class="myVarButton" id="startCamera"-->
-                       <!--name="uploadFromLibrary"-->
-                       <!--onclick="choiceCamera('library')">Select Poster from Library for Processing</button>-->
                 <br>
                 <button id="takePicture">Take Photo of Poster and Process</button>
-                <!--<button id="takePicture" onclick="takePictureFunction()">Take Photo of Poster and Process</button>-->
-                <!--<input class="myVarButton" id="takePicture" type="button" value="Take Photo of Poster and Process" onclick="choiceCamera('somethingelse')" />-->
-                <!--<input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" name="takePicAndUpload" />-->
-                <!--<button class="myVarButton" id="takePicture"-->
-                       <!--name="uploadFromLibrary"-->
-                       <!--onclick="choiceCamera('camera')">Take Photo of Poster and Process</button>-->
                 <br>
                 <!-- <img id="canvas" /> -->
             </div>
@@ -100,6 +88,8 @@
                     <p>EXPLANe is open source: the source code is available on Github and users may contribute their own tabs (or even create their own independent version of EXPLANe).</p>
                     <b>Notes on OCR Service:</b>
                     <p>The OCR server is setup to have a 5 minute connection timeout. Although this is more than enough time to process poster pictures, a weak or intermittent connection will impede functionality.</p>
+                    <b>Notes on Links:</b>
+                    <p>For the resources that have records accessible via a URL, a clickable link is provided. However, there are cases where a record might not be accessiable via the web, in which case we provide a link to one of the following: the publication detailing the record, the resource website, or Google.</p>
                 </div>
             </div>
         </div>
@@ -164,24 +154,8 @@
             return takePictureFunction();
         });
 
-
-//        function init() {
-//            document.querySelector("#startCamera")
-//                    .addEventListener("touchend", startCameraFunction, false);
-//            document.querySelector("#takePicture")
-//                    .addEventListener("touchend", takePictureFunction, false);
-//            $('#startCamera').on('click touchend', function() {
-//                return startCameraFunction();
-//            });
-//            $('#takePicture').on('click touchend', function() {
-//                return takePictureFunction();
-//            });
-//        }
-//
         document.addEventListener("deviceready", function() {
-//            alert(JSON.stringify(document.getElementsByClassName("stepOne")[0].style));
             document.getElementsByClassName("stepOne")[0].style.color = "black";
-//            alert(document.getElementsByClassName("stepOne")[0].style.color);
             document.getElementsByClassName("stepTwo")[0].style.color = "black";
         }, false);
 
@@ -205,23 +179,17 @@
         var cameraPopoverHandle2;
 
         function onSuccess(u) {
-            // imageUpload(u);
-//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading";
             document.getElementsByClassName("stepThree")[0].style.color = "black";
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = u.substr(u.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.enctype = "multipart/form-data";
-            // options.headers = {
-            //     Connection: "close"
-            // };
             options.chunkedMode = true;
             options.httpMethod = "POST";
             var trustAllHosts = true;
             var ft = new FileTransfer();
-            ft.upload(u, 
-                    //encodeURI("http://localhost:3001/api/photo"),
+            ft.upload(u,
                     encodeURI("https://ocr.iths.org/api/photo"),
                     win, 
                     fail, 
@@ -259,7 +227,6 @@
             navigator.camera.getPicture(onSuccess, onFail,
                     { destinationType: Camera.DestinationType.FILE_URI,
                         sourceType: source,
-                        //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
                     });
         }
 
@@ -267,7 +234,6 @@
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-//               sourceType: Camera.PictureSourceType.CAMERA,
                popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
              });
 
@@ -275,19 +241,16 @@
 
         function updateUserOnRequestSent() {
             console.log("Sent to server");
-            //document.getElementById(".received").textContent="Sending File and Awaiting Reply";
         }
 
         function updateUserOnRequestReceived() {
             console.log("Reply received from server");
-            //document.querySelector(".event.received").write("Analysis Complete")
         }
 
         function takePictureFunction() {
 
             cameraPopoverHandle2 = navigator.camera.getPicture(onSuccess, onFail,
                 { destinationType: Camera.DestinationType.FILE_URI,
-//               sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
                 });
@@ -524,8 +487,9 @@
                 var clickyarr = [];
                 for (var i in datarr) {
                     if(Array.isArray(datarr[i].data)) {
+//                        alert(["pubEntry",datarr[i].resource, datarr[i].data]);
                         clickyarr.push(
-                                "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
+                                "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://grasp.nhlbi.nih.gov/Search.aspx"+"\">"+
                                 datarr[i].resource+
                                 "<\a></TD><TD class=\"infolist\">"+
                                 makeListHTMLPresentation(datarr[i].data)+
@@ -536,26 +500,34 @@
                         if(datarr.length > 1) {
                             // Print Type of data
                             if (i === "0") {
+//                                alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                                alert([datarr[i].resource,datarr[i].data,t]);
                                 clickyarr.push(
-                                        "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
-                                        datarr[i].resource+
-                                        "<\a></TD><TD class=\"info\">"+
+                                        "<TR><td>"+t+"</td><TD class=\"link\">"+
+                                        provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                        +"</TD><TD class=\"info\">"+
                                         datarr[i].data+"</TD></TR>"
                                 );
                             }
                             else {
                                 // Print rest of data without explicitly stating type
+//                                alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                                alert([datarr[i].resource,datarr[i].data,t]);
                                 clickyarr.push(
-                                        "<TR><td>"+""+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+
-                                        datarr[i].resource+
-                                        "<\a></TD><TD class=\"info\">"+
+                                        "<TR><td>"+""+"</td><TD class=\"link\">" +
+                                        provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                        +"</TD><TD class=\"info\">"+
                                         datarr[i].data+"</TD></TR>"
                                 );
                             }
                         }
                         else {
                             // This prints singletons
-                            clickyarr.push("<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://www.google.com"+"\">"+datarr[i].resource+"<\a></TD><TD class=\"info\">"+datarr[i].data+"</TD>");
+//                            alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                            alert([datarr[i].resource,datarr[i].data,t]);
+                            clickyarr.push("<TR><td>"+t+"</td><TD class=\"link\">"+
+                                    provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                    +"</TD><TD class=\"info\">"+datarr[i].data+"</TD>");
                         }
                     }
                 }
@@ -590,6 +562,78 @@
                 drawRow(testObj3);
 
 
+            }
+
+            function provideVariantResourceLink(resource, record, type) {
+//                alert(["called function",type,resource,data]);
+                if (type === "Associated Phenotypes") {
+                    type = "publication";
+                }
+                if (record === "More than one gene") {
+                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                }
+                var table = {
+                    "dbsnp": {
+                        "RSID" : "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs="
+                        //Gene for dbsnp needs genes as accession numbers rather than canonical name
+                    },
+                    "grasp": {
+                    },
+                    "clinvar" : {
+                        "RSID": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
+                        "Gene": "http://www.ncbi.nlm.nih.gov/clinvar/?term="
+                    },
+                    "wellderly": {
+                    },
+                    "evs" : {
+                        "RSID": "http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=rsID&target=",
+                        "Gene": "http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=Gene+Hugo&target="
+                    },
+                    "exac" : {
+                        "RSID":"http://exac.broadinstitute.org/awesome?query=",
+                        "Gene":"http://exac.broadinstitute.org/awesome?query="
+                    },
+                    "mutdb" : {
+                    }
+                    // If dbsnfp, then could point to https://sites.google.com/site/jpopgen/dbNSFP
+                    // If CADD, then http://cadd.gs.washington.edu/
+                };
+
+                if (table.hasOwnProperty(resource)) {
+//                    alert([resource,"in table"]);
+                    if (table[resource].hasOwnProperty(type)) {
+//                        alert([resource,"in table and has type ",type]);
+                        var entry = table[resource][type]+record;
+//                        alert(["has entry",entry]);
+                        return "<a href=\""+entry+"\">"+resource+"<\a>";
+                    }
+                    else {
+                        return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                    }
+                }
+                else {
+//                    alert([resource,"NOT in table"]);
+                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                }
+//
+//                alert(["working with",type,resource,data]);
+//                if (table.hasOwnProperty(resource)) {
+//                    alert(["found", resource]);
+//                    if (table[resource].hasOwnProperty(type)) {
+//                        alert(["found", type]);
+//                        var entry = table[resource][type]+record;
+//                        alert(["entry", entry]);
+//                        alert(["<a href=\""+entry+"\">"+resource+"<\a>"]);
+//                        return "<a href=\""+entry+"\">"+resource+"<\a>";
+//                    }
+//                    else {
+//                        return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+//                    }
+//                }
+//                else {
+//                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+//                }
+//                return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
             }
 
             ////  END NEW FUNCTIONS   ///////
