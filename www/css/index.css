@@ -107,6 +107,7 @@ h1 {
     margin-left: 10%;
     margin-right: 10%;
     text-align: left;
+    padding: 0;
 }
 
 .stepOne {
@@ -253,6 +254,10 @@ button:active {
     /*margin:auto;*/
     margin-right: 5%;
     margin-left: 5%;
+}
+
+#urlsTabErrorMessage {
+    display: none;
 }
 
 .appTitle {

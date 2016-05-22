@@ -82,6 +82,9 @@
                         <h3 id="welcomeMessageURL">Please process a poster for a URL summary</h3>
                         <h2 id="resultsTitleURL">No URLs were found</h2>
                     </div>
+                    <div id="urlsTabErrorMessage">
+                        <h3 id="errorMessageURLFoundCantParse">URLs found, but incorrectly parsed:</h3>
+                    </div>
                 </div>
                 <div id="yourTab">
                     <p>EXPLANe is an acronym for "Extensible Framework for Poster Annotation". The purpose of this app is to allow users to take a photo of an academic poster containing an RSID, and supply the user with additional information that may not otherwise be readily available.</p>
@@ -231,6 +234,7 @@
         }
 
         function startCameraFunction() {
+            resetStatus();
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
@@ -248,6 +252,7 @@
         }
 
         function takePictureFunction() {
+            resetStatus();
 
             cameraPopoverHandle2 = navigator.camera.getPicture(onSuccess, onFail,
                 { destinationType: Camera.DestinationType.FILE_URI,
@@ -297,23 +302,25 @@
                     trustAllHosts);
             }
 
+        function resetStatus() {
+            document.getElementsByClassName("stepThree")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepFour")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepFive")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepSix")[0].style.color = "lightgrey";
+        }
+
         function win(r) {
-                //alert("r "+JSON.stringify(r));
-                //alert("Code = " + r.responseCode
-                //+ " Response = " + r.response
-                //+ " Sent = " + r.bytesSent);
-                //document.querySelector("#variantItems p").write("RESPONDED");
-                //alert(r.response);
-                //updateUserOnRequestReceived();
-//                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
+
                 document.getElementsByClassName("stepFour")[0].style.color = "black";
                 var responseObject = JSON.parse(r.response);
-                responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
+                //responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
 
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
+//                alert(JSON.stringify(responseObject.url));
+//                alert(responseObject.url.length);
+
                 if (responseObject.url.length === 0) {
-                   //alert("No URLs found in poster");
                     responseObject.url = "No URLs found in poster";
                 }
                 else {
@@ -323,6 +330,7 @@
 
                 if (responseObject.rsid.length === 0) {
                     alert("No RSIDs found in poster");
+                    //resetStatus();
                 }
                 else {
                     // Populate the genetics tab with myvariant information
@@ -350,8 +358,27 @@
 
         function MakeUrlList(urldata) {
             document.getElementById("urlsTabStartMessage").style.display = "none";
+            //CHECK //
             resetSummary();
-            var urlArray = urldata.split(",");
+
+            try {
+                var urlArray = urldata.split(",");
+            }
+            catch (tryerror) {
+                document.getElementById("urlsTabErrorMessage").style.display = "inline";
+                var urlArray = [urldata];
+            }
+
+
+
+            // if URLData is malformed
+//            var url_regex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/;
+//            var tests = urlArray.map(function(u) {
+//                return url_regex.test(u);
+//            });
+//            alert(tests);
+
+
             var urls = d3.select('#urlsTab')
                     .selectAll("span")
                     .data(urlArray)
