@@ -310,16 +310,12 @@
         }
 
         function win(r) {
-
                 document.getElementsByClassName("stepFour")[0].style.color = "black";
                 var responseObject = JSON.parse(r.response);
                 //responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
-
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
-//                alert(JSON.stringify(responseObject.url));
-//                alert(responseObject.url.length);
-
+                /* Logic for parsing URLs */
                 if (responseObject.url.length === 0) {
                     responseObject.url = "No URLs found in poster";
                 }
@@ -328,9 +324,9 @@
                     MakeUrlList(responseObject.url);
                 }
 
+                /* Logic for parsing RSIDs */
                 if (responseObject.rsid.length === 0) {
                     alert("No RSIDs found in poster");
-                    //resetStatus();
                 }
                 else {
                     // Populate the genetics tab with myvariant information
@@ -398,6 +394,8 @@
         }
 
         function MakeSummary(myVariantHitsArray) {
+            // Reset summary
+            resetGeneticSummary();
 
             if (typeof(myVariantHitsArray.hits) === "undefined") {
                 navigator.notification.alert(
@@ -850,6 +848,8 @@
 
             resetSummary();*/
 
+
+
             function drawTable(data) {
                 for (var i = 0; i < data.hits.length; i++) {
                     verifyPhenotypicRelevance(data.hits[i]);
@@ -868,6 +868,13 @@
 //            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
             document.getElementsByClassName("stepSix")[0].style.color = "black";
 
+        }
+
+        function resetGeneticSummary() {
+            var gr = document.getElementById("geneticsResults");
+            while (gr.firstChild) {
+                gr.removeChild(gr.firstChild);
+            }
         }
 
 
