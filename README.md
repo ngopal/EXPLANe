@@ -1,4 +1,4 @@
-# Variant-Poster-App
+# EXPLANe
 
 To run you need:
 1. An OCR server (you can download the OCR server code I have in my other repo)
