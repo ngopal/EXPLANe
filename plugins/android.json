@@ -59,23 +59,27 @@
     },
     "installed_plugins": {
         "cordova-plugin-camera": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
+            "PACKAGE_NAME": "edu.washington.explane"
         },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "edu.washington.explane"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
-        },
-        "org.apache.cordova.dialogs": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
+            "PACKAGE_NAME": "edu.washington.explane"
         },
         "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
+            "PACKAGE_NAME": "edu.washington.explane"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "edu.washington.explane"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "edu.washington.explane"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "edu.washington.explane"
+        }
+    }
 }

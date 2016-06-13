@@ -33,14 +33,31 @@
         <div class="app">
             <div class="appTitle">EXPLANe</div>
             <div id="deviceready" class="blink">
-                <p class="event listening">Status: Preparing Device</p>
-                <p class="event received">Status: Ready</p>
+                <p class="event listening"></p>
+                <p class="event received"></p>
+                <!--<br>-->
+            </div>
+            <div class="statusTable">
+                <table>
+                    <tr>
+                        <td class="stepOne">1. Preparing Device</td>
+                        <td class="stepFour">4. Received Response</td>
+                    </tr>
+                    <tr>
+                        <td class="stepTwo">2. Ready</td>
+                        <td class="stepFive">5. Summarizing</td>
+                    </tr>
+                    <tr>
+                        <td class="stepThree">3. Uploading...</td>
+                        <td class="stepSix">6. Query Complete</td>
+                    </tr>
+                </table>
                 <br>
             </div>
             <div id="uploadarea">
-                <input class="myVarButton" id="startCamera" type="submit" value="Select Poster from Library for Processing" />
+                <button id="startCamera">Select Poster from Library and Process</button>
                 <br>
-                <input class="myVarButton" id="takePicture" type="submit" value="Take Photo of Poster and Process" />
+                <button id="takePicture">Take Photo of Poster and Process</button>
                 <br>
                 <!-- <img id="canvas" /> -->
             </div>
@@ -50,26 +67,32 @@
                     <ul class="tabrow">
                         <li id="geneticsItem" class="selected" onclick="serveGeneticsTab()">Genetics</li>
                         <li id="urlsItem" onclick="serveURLTab()">URLs</li>
-                        <li id="yourItem" onclick="serveYourTab()">Your Tab Here</li>
+                        <li id="yourItem" onclick="serveYourTab()">About</li>
                     </ul><br>
                 </div>
                 <div id="geneticsTab">
+                    <h3 id="welcomeMessage">Please process a poster for a genetic summary. Results will appear below.</h3>
                     <h2 id="resultsTitle">No variants were found</h2>
-                    <table id="geneticsDataTable">
-                        <tr>
-                            <th>Variant</th>
-                            <th>Resource</th>
-                            <th>Summary</th>
-                        </tr>
-                    </table>
+                    <div id="geneticsResults">
+
+                    </div>
                 </div>
                 <div id="urlsTab">
                     <div id="urlsTabStartMessage">
-                        This tab could present a number of URLs extracted from a poster!
+                        <h3 id="welcomeMessageURL">Please process a poster for a URL summary</h3>
+                        <h2 id="resultsTitleURL">No URLs were found</h2>
+                    </div>
+                    <div id="urlsTabErrorMessage">
+                        <h3 id="errorMessageURLFoundCantParse">URLs found, but incorrectly parsed:</h3>
                     </div>
                 </div>
                 <div id="yourTab">
-                    As a developer, you may customize your own tab.
+                    <p>EXPLANe is an acronym for "Extensible Framework for Poster Annotation". The purpose of this app is to allow users to take a photo of an academic poster containing an RSID, and supply the user with additional information that may not otherwise be readily available.</p>
+                    <p>EXPLANe is open source: the source code is available on Github and users may contribute their own tabs (or even create their own independent version of EXPLANe).</p>
+                    <b>Notes on OCR Service:</b>
+                    <p>The OCR server is setup to have a 5 minute connection timeout. Although this is more than enough time to process poster pictures, a weak or intermittent connection will impede functionality.</p>
+                    <b>Notes on Links:</b>
+                    <p>For the resources that have records accessible via a URL, a clickable link is provided. However, there are cases where a record might not be accessiable via the web, in which case we provide a link to one of the following: the publication detailing the record, the resource website, or Google.</p>
                 </div>
             </div>
         </div>
@@ -77,6 +100,7 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/node_modules/d3/d3.min.js"></script>
         <script type="text/javascript" src="js/node_modules/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="js/node_modules/underscore/underscore-min.js"></script>
         <access origin="*" />
         <script type="text/javascript">
             //$.support.cors = true;
@@ -126,33 +150,49 @@
         app.initialize();
         initializeTabs();
 
+        $('#startCamera').on('touchend', function() {
+            return startCameraFunction();
+        });
+        $('#takePicture').on('touchend', function() {
+            return takePictureFunction();
+        });
 
-        function init() {
-            document.querySelector("#startCamera")
-                    .addEventListener("touchend", startCamera, false);
-        }
+        document.addEventListener("deviceready", function() {
+            document.getElementsByClassName("stepOne")[0].style.color = "black";
+            document.getElementsByClassName("stepTwo")[0].style.color = "black";
+        }, false);
 
-        document.addEventListener("deviceready", init, false);
+        document.addEventListener("deviceready", function() {
+            if (device.model === "x86_64") {
+               console.log("Using emulator");
+            }
+            else {
+                var model = device.model;
+                var modelversion = +model.substr(6,7).split(',')[0];
+                if (modelversion <= 6) {
+                    document.getElementsByClassName("app")[0].style.width="100%";
+                }
+                else {
+                    document.getElementsByClassName("app")[0].style.width="90%";
+                }
+            }
+        }, false);
         var myVariantUrl = "http://myvariant.info/v1/query?q=";
         var cameraPopoverHandle;
+        var cameraPopoverHandle2;
 
         function onSuccess(u) {
-            // imageUpload(u);
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Uploading"
+            document.getElementsByClassName("stepThree")[0].style.color = "black";
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = u.substr(u.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.enctype = "multipart/form-data";
-            // options.headers = {
-            //     Connection: "close"
-            // };
             options.chunkedMode = true;
             options.httpMethod = "POST";
             var trustAllHosts = true;
             var ft = new FileTransfer();
-            ft.upload(u, 
-                    //encodeURI("http://localhost:3001/api/photo"),
+            ft.upload(u,
                     encodeURI("https://ocr.iths.org/api/photo"),
                     win, 
                     fail, 
@@ -170,8 +210,31 @@
             console.log(e);
         }
 
-        function startCamera() {
 
+        function choiceCamera(choice) {
+            if (choice === "camera") {
+                var source = Camera.PictureSourceType.CAMERA;
+                alert("Camera choice");
+                console.log("Camera choice");
+            }
+            else if (choice === "library"){
+                var source = Camera.PictureSourceType.PHOTOLIBRARY;
+                alert("Library choice");
+                console.log("Library choice");
+            }
+            else {
+                var source = Camera.PictureSourceType.PHOTOLIBRARY;
+                alert("ELSE choice");
+                console.log("ELSE choice");
+            }
+            navigator.camera.getPicture(onSuccess, onFail,
+                    { destinationType: Camera.DestinationType.FILE_URI,
+                        sourceType: source,
+                    });
+        }
+
+        function startCameraFunction() {
+            resetStatus();
             cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
              { destinationType: Camera.DestinationType.FILE_URI,
                sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
@@ -182,21 +245,20 @@
 
         function updateUserOnRequestSent() {
             console.log("Sent to server");
-            //document.getElementById(".received").textContent="Sending File and Awaiting Reply";
         }
 
         function updateUserOnRequestReceived() {
             console.log("Reply received from server");
-            //document.querySelector(".event.received").write("Analysis Complete")
         }
 
-        function takePicture() {
+        function takePictureFunction() {
+            resetStatus();
 
-            cameraPopoverHandle = navigator.camera.getPicture(onSuccess, onFail,
-             { destinationType: Camera.DestinationType.FILE_URI,
-               sourceType: Camera.PictureSourceType.CAMERA,
-               //popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
-             });
+            cameraPopoverHandle2 = navigator.camera.getPicture(onSuccess, onFail,
+                { destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    popoverOptions: new CameraPopoverOptions(300, 300, 200, 200, Camera.PopoverArrowDirection.ARROW_ANY)
+                });
 
         }
 
@@ -205,6 +267,7 @@
             console.log('running onorientationchange');
             var cameraPopoverOptions = new CameraPopoverOptions(0, 0, 100, 100, Camera.PopoverArrowDirection.ARROW_ANY);
             cameraPopoverHandle.setPosition(cameraPopoverOptions);
+            cameraPopoverHandle2.setPosition(cameraPopoverOptions);
          }
             
 
@@ -218,6 +281,7 @@
                 options.fileName = url.substr(url.lastIndexOf('/') + 1);
                 options.mimeType = "image/jpeg";
                 options.enctype = "multipart/form-data";
+                options.params = {'timeout' : 5000};
                 options.headers = {
                     Connection: "close"
                 };
@@ -239,21 +303,21 @@
                     trustAllHosts);
             }
 
-        function win(r) {
-                //alert("r "+JSON.stringify(r));
-                //alert("Code = " + r.responseCode
-                //+ " Response = " + r.response
-                //+ " Sent = " + r.bytesSent);
-                //document.querySelector("#variantItems p").write("RESPONDED");
-                //alert(r.response);
-                //updateUserOnRequestReceived();
-                document.getElementsByClassName("event received")[0].innerHTML = "Status: Received Response";
-                var responseObject = JSON.parse(r.response);
+        function resetStatus() {
+            document.getElementsByClassName("stepThree")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepFour")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepFive")[0].style.color = "lightgrey";
+            document.getElementsByClassName("stepSix")[0].style.color = "lightgrey";
+        }
 
+        function win(r) {
+                document.getElementsByClassName("stepFour")[0].style.color = "black";
+                var responseObject = JSON.parse(r.response);
+                //responseObject.rsid = "rs1801260,rs429358,rs77121243,rs1801131,rs1801253";
                 //responseObject.url = "http://www.google.com,http://nikhilgopal.com";
 
+                /* Logic for parsing URLs */
                 if (responseObject.url.length === 0) {
-                   //alert("No URLs found in poster");
                     responseObject.url = "No URLs found in poster";
                 }
                 else {
@@ -261,6 +325,7 @@
                     MakeUrlList(responseObject.url);
                 }
 
+                /* Logic for parsing RSIDs */
                 if (responseObject.rsid.length === 0) {
                     alert("No RSIDs found in poster");
                 }
@@ -282,16 +347,39 @@
             }
 
         function fail(error) {
-            alert("An error has occurred: Code = " + error.code
-            + " upload error source " + error.source
-            + " upload error target " + error.target);
-            alert(JSON.stringify(error));
+            if (error.code === 3 ) {
+                alert('Sorry, no SNPs found!');
+            }
+            // The below is to be used for debugging errors
+//            alert("An error has occurred: Code = " + error.code
+//            + " upload error source " + error.source
+//            + " upload error target " + error.target);
+//            alert(JSON.stringify(error));
         }
 
         function MakeUrlList(urldata) {
             document.getElementById("urlsTabStartMessage").style.display = "none";
+            //CHECK //
             resetSummary();
-            var urlArray = urldata.split(",");
+
+            try {
+                var urlArray = urldata.split(",");
+            }
+            catch (tryerror) {
+                document.getElementById("urlsTabErrorMessage").style.display = "inline";
+                var urlArray = [urldata];
+            }
+
+
+
+            // if URLData is malformed
+//            var url_regex = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})/;
+//            var tests = urlArray.map(function(u) {
+//                return url_regex.test(u);
+//            });
+//            alert(tests);
+
+
             var urls = d3.select('#urlsTab')
                     .selectAll("span")
                     .data(urlArray)
@@ -311,6 +399,8 @@
         }
 
         function MakeSummary(myVariantHitsArray) {
+            // Reset summary
+            resetGeneticSummary();
 
             if (typeof(myVariantHitsArray.hits) === "undefined") {
                 navigator.notification.alert(
@@ -322,9 +412,262 @@
             }
 
             var linklookup = {"clinvar": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
-                "dnsbp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
-                "grasp": "NA",
-                "wellderly": "NA"};
+                "dbsnp": "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=",
+                "grasp": "http://grasp.nhlbi.nih.gov/Search.aspx", // REQUIRES CROSS-SITE SCRIPTING
+                "wellderly": "NA",
+                "evs":"http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=rsID&target=",
+                "exac":"http://exac.broadinstitute.org/awesome?query=",
+                "mutdb" :"" // REQUIRES CROSS-SITE SCRIPTING (SEANS PAGE)
+            };
+
+            function linklookupGene(source, gene_name) {
+                if (source==="clinvar") {
+                  return "http://www.ncbi.nlm.nih.gov/clinvar/?term="+gene_name+"%5Bgene%5D";
+                }
+                else {
+                  return undefined;
+              }
+            };
+
+
+            ///// START NEW FUNCTIONS //////
+
+            function processItemsForHit(item) {
+                var hash = {};
+                var keychain = Object.keys(item);
+                for (var n in keychain) {
+                    if (keychain[n].indexOf("_") !== 0) {
+                        var subkeychain = Object.keys(item[keychain[n]]);
+                        subkeychain.forEach(function(s) {
+                            if(hash[s]) {
+                                hash[s].push(keychain[n]);
+                            }
+                            else {
+                                hash[s] = [keychain[n]];
+                            }
+                        });
+                    }
+                }
+                return hash;
+            }
+
+            function makeValidSelector(ss) {
+                return ss.replace(":","_").replace(".","_").replace(">","_");
+            }
+
+            function drawHeader(rowData) {
+                var validSelector = makeValidSelector("table_"+rowData.variantID);
+                console.log(validSelector);
+                $("#geneticsResults")
+                        .append("<h2>"+rowData.variantID+"</h2>")
+                        .append("<table id=\""+validSelector+"\">")
+                        .append("</table>")
+                        .append("<hr>");
+            }
+
+            function drawRow(rowData) {
+                var validSelector = makeValidSelector("#table_"+rowData.variantID);
+                $(validSelector).append($(rowData.summary));
+            }
+
+
+            function getRSIDSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).rsid;
+                var dat = [];
+                for (var i in sources) {
+                    dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].rsid});
+                }
+                return dat;
+            }
+
+            function getGeneSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).gene;
+                var dat = [];
+                for (var i in sources) {
+                    var t = typeof(struct[hitnum][sources[i]].gene);
+                    if (t === "object") {
+                        if (struct[hitnum][sources[i]].gene.hasOwnProperty("symbol")) {
+                            dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].gene.symbol});
+                        }
+                        else {
+                            dat.push({"resource":sources[i], "data": "More than one gene"});
+                        }
+                    }
+                    else if (t === "string") {
+                        dat.push({"resource":sources[i], "data":struct[hitnum][sources[i]].gene});
+                    }
+                    else {
+                        dat.push({"resource":sources[i], "data":"No data"});
+                    }
+                }
+                return dat;
+            }
+
+
+            function getPubSum(hitnum, struct) {
+                var sources = processItemsForHit(struct[hitnum]).publication;
+                var dat = [];
+                for (var i in sources) {
+                    dat.push({"resource":sources[i], "data": struct[hitnum][sources[i]].publication});
+                }
+                return dat;
+            }
+
+            function makeClicky(t,datarr) {
+                var clickyarr = [];
+                for (var i in datarr) {
+                    if(Array.isArray(datarr[i].data)) {
+//                        alert(["pubEntry",datarr[i].resource, datarr[i].data]);
+                        clickyarr.push(
+                                "<TR><td>"+t+"</td><TD class=\"link\"><a href=\""+"http://grasp.nhlbi.nih.gov/Search.aspx"+"\">"+
+                                datarr[i].resource+
+                                "<\a></TD><TD class=\"infolist\">"+
+                                makeListHTMLPresentation(datarr[i].data)+
+                                "</TD></TR>"
+                        );
+                    }
+                    else {
+                        if(datarr.length > 1) {
+                            // Print Type of data
+                            if (i === "0") {
+//                                alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                                alert([datarr[i].resource,datarr[i].data,t]);
+                                clickyarr.push(
+                                        "<TR><td>"+t+"</td><TD class=\"link\">"+
+                                        provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                        +"</TD><TD class=\"info\">"+
+                                        datarr[i].data+"</TD></TR>"
+                                );
+                            }
+                            else {
+                                // Print rest of data without explicitly stating type
+//                                alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                                alert([datarr[i].resource,datarr[i].data,t]);
+                                clickyarr.push(
+                                        "<TR><td>"+""+"</td><TD class=\"link\">" +
+                                        provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                        +"</TD><TD class=\"info\">"+
+                                        datarr[i].data+"</TD></TR>"
+                                );
+                            }
+                        }
+                        else {
+                            // This prints singletons
+//                            alert(provideVariantResourceLink(datarr[i].resource,datarr[i].data,t));
+//                            alert([datarr[i].resource,datarr[i].data,t]);
+                            clickyarr.push("<TR><td>"+t+"</td><TD class=\"link\">"+
+                                    provideVariantResourceLink(datarr[i].resource,datarr[i].data,t)
+                                    +"</TD><TD class=\"info\">"+datarr[i].data+"</TD>");
+                        }
+                    }
+                }
+                var repl = clickyarr.join('');
+                return repl;
+            }
+
+            function makeListHTMLPresentation(pubList) {
+                return "<OL type=\"A\">"+_.uniq(pubList.map(function(m){
+                            return m.phenotype;
+                        })).map(function(m) {
+                            return "<LI>"+m+"</LI>";
+                        }).join("")+"</OL>";
+            }
+
+            function renderSummaries(hitnum, struct) {
+                var testObj = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "RSID",
+                    "summary" : makeClicky("RSID", getRSIDSum(hitnum, struct))};
+
+                var testObj2 = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "Gene(s)",
+                    "summary" : makeClicky("Gene", getGeneSum(hitnum, struct))};
+
+                var testObj3 = {"variantID" : struct[hitnum]["_id"],
+                    "type" : "Associated Phenotypes",
+                    "summary" : makeClicky("Associated Phenotypes", getPubSum(hitnum, struct))};
+
+                drawHeader(testObj);
+                drawRow(testObj);
+                drawRow(testObj2);
+                drawRow(testObj3);
+
+
+            }
+
+            function provideVariantResourceLink(resource, record, type) {
+//                alert(["called function",type,resource,data]);
+                if (type === "Associated Phenotypes") {
+                    type = "publication";
+                }
+                if (record === "More than one gene") {
+                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                }
+                var table = {
+                    "dbsnp": {
+                        "RSID" : "http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs="
+                        //Gene for dbsnp needs genes as accession numbers rather than canonical name
+                    },
+                    "grasp": {
+                    },
+                    "clinvar" : {
+                        "RSID": "http://www.ncbi.nlm.nih.gov/clinvar?term=",
+                        "Gene": "http://www.ncbi.nlm.nih.gov/clinvar/?term="
+                    },
+                    "wellderly": {
+                    },
+                    "evs" : {
+                        "RSID": "http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=rsID&target=",
+                        "Gene": "http://evs.gs.washington.edu/EVS/PopStatsServlet?searchBy=Gene+Hugo&target="
+                    },
+                    "exac" : {
+                        "RSID":"http://exac.broadinstitute.org/awesome?query=",
+                        "Gene":"http://exac.broadinstitute.org/awesome?query="
+                    },
+                    "mutdb" : {
+                    }
+                    // If dbsnfp, then could point to https://sites.google.com/site/jpopgen/dbNSFP
+                    // If CADD, then http://cadd.gs.washington.edu/
+                };
+
+                if (table.hasOwnProperty(resource)) {
+//                    alert([resource,"in table"]);
+                    if (table[resource].hasOwnProperty(type)) {
+//                        alert([resource,"in table and has type ",type]);
+                        var entry = table[resource][type]+record;
+//                        alert(["has entry",entry]);
+                        return "<a href=\""+entry+"\">"+resource+"<\a>";
+                    }
+                    else {
+                        return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                    }
+                }
+                else {
+//                    alert([resource,"NOT in table"]);
+                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+                }
+//
+//                alert(["working with",type,resource,data]);
+//                if (table.hasOwnProperty(resource)) {
+//                    alert(["found", resource]);
+//                    if (table[resource].hasOwnProperty(type)) {
+//                        alert(["found", type]);
+//                        var entry = table[resource][type]+record;
+//                        alert(["entry", entry]);
+//                        alert(["<a href=\""+entry+"\">"+resource+"<\a>"]);
+//                        return "<a href=\""+entry+"\">"+resource+"<\a>";
+//                    }
+//                    else {
+//                        return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+//                    }
+//                }
+//                else {
+//                    return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+//                }
+//                return "<a href=\""+"http://www.google.com"+"\">"+resource+"<\a>";
+            }
+
+            ////  END NEW FUNCTIONS   ///////
+
 
             function verifyClinicalStatus(item){
                 var rdat = {"variantID": item._id,
@@ -349,12 +692,14 @@
                 // wellderly.gene
                 var rdat = {"variantID": item._id,
                     "resource": "genes",
+                    "link": "none",
                     "summary": "none"};
                 if(item.hasOwnProperty("clinvar")) {
                     rdat.resource = "clinvar";
                     if(item.clinvar.hasOwnProperty("gene")) {
                         if(item.clinvar.gene.hasOwnProperty("symbol")) {
                             rdat.summary = "This variant is associated with "+item.clinvar.gene.symbol+" (clinvar)";
+                            rdat.link = linklookupGene("clinvar", item.clinvar.gene.symbol);
                         }
                         else {
                             rdat.summary = "No data found on gene";
@@ -479,21 +824,27 @@
             }
 
 
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
+//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Summarizing";
+            document.getElementsByClassName("stepFive")[0].style.color = "black";
 
-            function drawRow(rowData) {
-                var row = $("<tr />");
-                $("#geneticsDataTable").append(row);
-                row.append($("<td>" + rowData.variantID + "</td>"));
-                if (rowData.hasOwnProperty("link")) {
-                    //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
-                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
-                }
-                else {
-                    row.append($("<td>" + rowData.resource + "</td>"));
-                }
-                row.append($("<td>" + rowData.summary + "</td>"));
-            }
+//            document.getElementById("geneticsDataTable").style.display = "inline";
+            document.getElementById("welcomeMessage").style.display = "none";
+            document.getElementById("welcomeMessageURL").style.display = "none";
+            document.getElementById("resultsTitleURL").style.display = "inline";
+//            function drawRow(rowData) {
+//                var row = $("<tr />");
+//                $("#geneticsDataTable").append(row);
+//                row.append($("<td>" + rowData.variantID + "</td>"));
+//                if (rowData.hasOwnProperty("link")) {
+//                    //row.append($("<td><a href=\"" + rowData.link + "\">" + rowData.resource + "</a></td>"));
+//                    row.append($("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>"));
+//                    //alert("<td><a href=\"#\" onclick=\"window.open(\'" + rowData.link + "\', \'_system\');\">" + rowData.resource + "</a></td>");
+//                }
+//                else {
+//                    row.append($("<td>" + rowData.resource + "</td>"));
+//                }
+//                row.append($("<td>" + rowData.summary + "<hr></td>"));
+//            }
 
 
 /*            function resetSummary() {
@@ -501,6 +852,8 @@
             }
 
             resetSummary();*/
+
+
 
             function drawTable(data) {
                 for (var i = 0; i < data.hits.length; i++) {
@@ -511,11 +864,22 @@
                 }
             }
 
-            drawTable(myVariantHitsArray);
+            //drawTable(myVariantHitsArray);
+            for (var k in myVariantHitsArray.hits) {
+                renderSummaries(k, myVariantHitsArray.hits);
+            }
 
 
-            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
+//            document.getElementsByClassName("event received")[0].innerHTML = "Status: Query Complete";
+            document.getElementsByClassName("stepSix")[0].style.color = "black";
 
+        }
+
+        function resetGeneticSummary() {
+            var gr = document.getElementById("geneticsResults");
+            while (gr.firstChild) {
+                gr.removeChild(gr.firstChild);
+            }
         }
 
 
